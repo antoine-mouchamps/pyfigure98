@@ -108,11 +108,11 @@ class Figure:
             raise NameError("The template "+template+"does not exist.")
 
         if rows > 1:
-                x_size = self.template["fig_size_x"]*cols
+                x_size = self.template["fig_size_x"]*cols*1.1
         else:
             x_size = self.template["fig_size_x"]
         if cols > 1:
-            y_size = self.template["fig_size_y"]*rows
+            y_size = self.template["fig_size_y"]*rows*1.1
         else:
             y_size = self.template["fig_size_y"]
 
@@ -191,8 +191,9 @@ class Graph:
         self.fig = fig
         self.plot = subPlot
         self.plot_labels = []
+        self.__has_second_y_axis = False
 
-    def setAxisX(self, x_min:int, x_max:int, label:str = None):
+    def setAxisX(self, x_min:float, x_max:float, label:str = None):
         """Set the labels and the interval of the X axis of the current graph.
 
         Parameters
@@ -200,13 +201,27 @@ class Graph:
 
         *   ``x_min``: the lower bound of the axis.
         *   ``x_max``: upper bound of the axis.
-        *   ``label``: name of the axis (don't forget the units !)
+        *   ``label``: name of the axis (don't forget the units !).
+        *   ```tick_each``: interval between each tick.
         
         """
         if label != None:
             self.plot.set_xlabel(label, fontsize=self.fig.template["x_label_size"])
         self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["x_tick_size"])
         self.plot.set_xlim([x_min, x_max])
+
+    def setTimeAxisX(self): # PROBLEMS WHEN X IS SMALL BECAUSE TICKS OVERLAP THEMSELVES
+        """ Set the X axis as a time axis in h/m/s.
+        """
+        def timeTicks(xx, pos):
+            d = datetime.timedelta(seconds=xx)
+            return str(d)
+        
+        self.plot.yaxis.get_offset_text().set_fontsize(25)
+        self.plot.ticklabel_format(scilimits=(0, 0))
+        formatter = tick.FuncFormatter(timeTicks)
+        self.plot.xaxis.set_major_formatter(formatter)
+
 
     def setAxisY(self, y_min:int, y_max:int, label:str = None):
         """Set the labels and the interval of the Y axis of the current graph.
@@ -223,6 +238,25 @@ class Graph:
             self.plot.set_ylabel(label, fontsize=self.fig.template["y_label_size"])
         self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
         self.plot.set_ylim([y_min, y_max])
+
+    def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None):
+        """Create and set the labels and the interval of the second Y axis of the current graph.
+
+        Parameters
+        ----------
+
+        *   ``x_min``: the lower bound of the axis
+        *   ``x_max``: upper bound of the axis
+        *   ``label``: name of the axis (don't forget the units !)
+        
+        """
+        self.__has_second_y_axis = True
+        self.secondYAxis = self.plot.twinx()
+        if label != None:
+            self.secondYAxis.set_ylabel(label, fontsize=self.fig.template["y_label_size"])
+        self.secondYAxis.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
+        self.secondYAxis.set_ylim([y_min, y_max])
+
 
     def setTitle(self, label:str):
         """Set the title of the current graph.
@@ -320,3 +354,59 @@ class Graph:
             self.plot_labels.append("")
         else:
             self.plot_labels.append(label)
+
+    def plotStandardSecondAxis(self, x:list, y:list, label:str = None, color='blue', linestyle='solid', linewidth=1):
+        """Plot datas with a standard "line" graph.
+
+        Parameters
+        ----------
+
+        *   ``x``: list of the x values.
+        *   ``y``: list of the y values.
+        *   ``label``: label of the plot, used in the legend (if needed).
+        *   ``color``: color of the plot.
+        *   ``linestyle``: style (solid, dashed, dotted, ...).
+        *   ``linewidth``: width of the plot.
+
+        Possibilities
+        -------------
+            b : blue                        
+            g : green                      
+            r : red                         
+            c : cyan                          
+            m : magenta                    
+            y : yellow        
+            k : black         
+            w : white         
+            . : point                    
+            o : circle                    
+            x : x-mark                    
+            +: plus 
+            *: star                   
+            s : square
+            d : diamond
+            ^ : triangle (up)
+            v : triangle (down)
+            < : triangle (left)
+            > : triangle (right)
+            p : pentagram
+            h : hexagram
+            -: solid
+            -- : dashed  
+            : : dotted
+            -. : dashdot
+            (none) : no line
+                                                    
+        """
+        if (not(len(x) == len(y))):
+            raise TypeError("x and y must have the same dimensions !")
+        
+        if(self.__has_second_y_axis == False):
+            raise KeyError("This graph does not have a second y axis. Create one first !")
+        else:
+            self.secondYAxis.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+            
+            if(label == None):
+                self.plot.plot_labels.append("")
+            else:
+                self.plot_labels.append(label)
