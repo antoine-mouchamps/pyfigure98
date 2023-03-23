@@ -1,7 +1,7 @@
 from dependencies import *
 
 class Figure:
-    """Class containing everything need in order to create complex figures with pultiple plots.
+    """Class containing everything needed in order to create complex figures with pultiple plots.
 
     Methods:
     ========
@@ -23,6 +23,8 @@ class Figure:
     *   ``figShow``
     
     """
+    
+    
     def __template_default(self) -> dict:
         template_default = dict()
         template_default["fig_size_x"] = 11
@@ -37,40 +39,84 @@ class Figure:
 
         return template_default
     
-    def __init__(self, template:str = "default",  rows:int = 1, cols:int = 1) -> None:
+    
+    def __init__(self) -> None:
+        """Create a new figure.
+
+        Begin by calling the ``addFigure`` method in order to create the figure.
+        If you want to, create a custom template by using ``addCustomTemplate`` before creating the figure.
+        """
+        self.graphs:dict[str, Graph]
+        self.graphs = dict()
+
+        self.templates:dict[str, dict]
+        self.templates = dict()
+        self.templates["default"] = self.__template_default()
+
+
+    def addCustomTemplate(self, name:str, fig_size_x:int, fig_size_y:int, 
+                          x_label_size:int, y_label_size:int, 
+                          x_tick_size:int, y_tick_size:int, 
+                          legend_size:int, subplot_title_size:int,
+                          fig_title_size:int) -> None:
+        """Create a custom template;
+
+        Parameters
+        ----------
+
+        *   ``name``: name of the template.
+        *   ``fig_size_x``: default x size of a figure when there is only one plot.
+        *   ``fig_size_y``: default y size of a figure when there is only one plot.
+        *   ``x_label_size``: size of the label of the x axis.
+        *   ``y_label_size``: size of the label of the y axis.
+        *   ``x_tick_size``: size of the tick numbers of the x axis.
+        *   ``y_tick_size``: size of the tick numbers of the y axis.
+        *   ``legend_size``: size of the text used in the legend.
+        *   ``subplot_title_size``: size of the subtitles. 
+        *   ``fig_title_size``: size of the title of the figure.s
+        """
+    
+        template_custom = dict()
+        template_custom["fig_size_x"] = fig_size_x
+        template_custom["fig_size_y"] = fig_size_y
+        template_custom["x_label_size"] = x_label_size
+        template_custom["y_label_size"] = y_label_size
+        template_custom["x_tick_size"] = x_tick_size
+        template_custom["y_tick_size"] = y_tick_size
+        template_custom["legend_size"] = legend_size
+        template_custom["subplot_title_size"] = subplot_title_size
+        template_custom["fig_title_size"] = fig_title_size
+
+        self.custom_templates[name] = template_custom
+
+    def addFigure(self, template:str = "default", rows:int = 1, cols:int = 1) -> None:
         """Create a new figure.
 
         Parameters
         ----------
 
-        *   ``template``: set the template used for the created figure. The template determines the font size of all the different things
-        added to it.
+        *   ``template``: Set the template used by the figure, i.e. all the font sizes used by the different components.
         *   ``rows``: Set the horizontal size of the figure by multiplying the default size of a plot (found in the template used) by this
         value. ``rows`` should thus be equal to the maximum amount of plots that will be placed horizontally.
         *   ``cols``: Set the vertical size of the figure by multiplying the default size of a plot (found in the template used) by this
         value. ``col`` should thus be equal to the maximum amount of plots that will be placed vertically.
         """
-        if template == "default":
-            self.template = self.__template_default()
-            if rows > 1:
+
+        if(template in self.templates):
+            self.template = self.templates[template]
+        else:
+            raise NameError("The template "+template+"does not exist.")
+
+        if rows > 1:
                 x_size = self.template["fig_size_x"]*cols
-                print("hein ?")
-            else:
-                x_size = self.template["fig_size_x"]
-            if cols > 1:
-                y_size = self.template["fig_size_y"]*rows
-            else:
-                y_size = self.template["fig_size_y"]
+        else:
+            x_size = self.template["fig_size_x"]
+        if cols > 1:
+            y_size = self.template["fig_size_y"]*rows
+        else:
+            y_size = self.template["fig_size_y"]
 
-            self.fig = plt.figure(figsize = (x_size, y_size))
-
-        self.graphs:dict[str, Graph]
-        self.graphs = dict()
-    
-
-
-
-
+        self.fig = plt.figure(figsize = (x_size, y_size))
 
     def addGraph(self, name:str, row:int = 1, col:int = 1, index:int = 1) -> None:
         """Add a graph to the current figure. 

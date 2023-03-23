@@ -17,3 +17,6 @@ import datetime
                                  p     pentagram
                                  h     hexagram
 """
+
+if __name__ == "__main__":
+    pass

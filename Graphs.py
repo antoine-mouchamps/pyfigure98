@@ -3,7 +3,8 @@ from Figure import Figure
 
 if __name__ == "__main__":
 
-    fig = Figure(template="default", rows=2, cols=2)
+    fig = Figure()
+    fig.addFigure(template="default", rows=2, cols=2)
     fig.setTitle("Essai de titre principal")
     fig.addGraph("test", 2, 2, 1)
     fig.graphs["test"].setTitle("sous titre 1")
