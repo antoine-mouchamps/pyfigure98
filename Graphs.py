@@ -7,35 +7,35 @@ if __name__ == "__main__":
     fig.setTitle("Essai de titre principal")
     fig.addGraph("test", 2, 2, 1)
     fig.graphs["test"].setTitle("sous titre 1")
-    fig.graphs["test"].setAxesX(-10, 10, r"axe des x")
-    fig.graphs["test"].setAxesY(-5, 5, r"axe des y")
-    x = [np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1))]
-    y = [np.sin(np.arange(0, 10, 0.1)), np.arange(0, 10, 0.1)]
-    label = ["test legende1", "test legende2"]
-    fig.graphs["test"].plotStandart(x, y, label, color='red', linestyle="solid", linewidth=1)
+    fig.graphs["test"].setAxisX(-10, 10, r"axe des x")
+    fig.graphs["test"].setAxisY(-5, 5, r"axe des y")
+    x = np.arange(0, 10, 0.1)
+    y = np.sin(np.arange(0, 10, 0.1))
+    label = "test legende1"
+    fig.graphs["test"].plotStandard(np.arange(0, 10, 0.1), y, label, linestyle="solid", linewidth=1)
     fig.graphs["test"].setLegend("best")
-    """
+    
     fig.addGraph("test2", 2, 2, 2)
     fig.graphs["test2"].setTitle("sous titre 1")
-    fig.graphs["test2"].setAxesX(0, 10, r"axe des x")
-    fig.graphs["test2"].setAxesY(-3, 3, r"axe des y")
-    fig.graphs["test2"].plotStandart(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
+    fig.graphs["test2"].setAxisX(0, 10, r"axe des x")
+    fig.graphs["test2"].setAxisY(-3, 3, r"axe des y")
+    fig.graphs["test2"].plotStandard(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
     fig.graphs["test2"].setLegend("best")
     fig.addGraph("test3", 2, 1, 2)
     fig.graphs["test3"].setTitle("sous titre 1")
-    fig.graphs["test3"].setAxesX(0, 10, r"axe des x")
-    fig.graphs["test3"].setAxesY(-3, 3, r"axe des y")
-    fig.graphs["test3"].plotStandart(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
+    fig.graphs["test3"].setAxisX(0, 10, r"axe des x")
+    fig.graphs["test3"].setAxisY(-3, 3, r"axe des y")
+    fig.graphs["test3"].plotStandard(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
     fig.graphs["test3"].setLegend("best")
-    """
+    
     fig.figSave("testtt")
 """
     fig1 = Figure(template="default", rows=1, cols=1)
     fig1.addGraph("test", 1, 1, 1)
     fig1.graphs["test"].setTitle("sous titre 1")
-    fig1.graphs["test"].setAxesX(0, 10, r"axe des x")
-    fig1.graphs["test"].setAxesY(-3, 3, r"axe des y")
-    fig1.graphs["test"].plotStandart(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
+    fig1.graphs["test"].setAxisX(0, 10, r"axe des x")
+    fig1.graphs["test"].setAxisY(-3, 3, r"axe des y")
+    fig1.graphs["test"].plotStandard(np.arange(0, 10, 0.1), np.sin(np.arange(0, 10, 0.1)), "test legende", color='red', linestyle="solid", linewidth=1)
     fig1.graphs["test"].setLegend("best")
     fig1.figSave("testttttt")
     """
@@ -46,7 +46,7 @@ def parameters(plot = None, x_span = None, y_span = None, title = None, x_label 
     if title:
         plot.title.set_text(title)
 
-    # pt = taille de la police des axes (chiffres) et des labels
+    # pt = taille de la police des Axis (chiffres) et des labels
     pt=25
 
     if x_label:
