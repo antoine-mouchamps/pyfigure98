@@ -246,19 +246,70 @@ class Graph:
         """
         self.plot.legend(self.plot_labels, loc=loc, fontsize=self.fig.template["legend_size"])
 
+    def setBorders(self, config:str = None,left:bool = True, right:bool = True, top:bool = True, bottom:bool = True):
+        """Set the 4 borders of the graph.
+        Set ``config`` to "upper-right" to disable the right and upper border.
+        
+        Parameters
+        ----------
+
+        *   ``config``: presets
+        *   ``left``: enable the left border.
+        *   ``right``: enable the right border.
+        *   ``top``: enable the top border.
+        *   ``bottom``: enable the bottom border.
+        """
+        if(config == "upper-right"):
+            self.plot.spines['top'].set_visible(False)
+            self.plot.spines['right'].set_visible(False)
+        else:
+            self.plot.spines['top'].set_visible(top)
+            self.plot.spines['bottom'].set_visible(bottom)
+            self.plot.spines['left'].set_visible(left)
+            self.plot.spines['right'].set_visible(right)
+
     def plotStandard(self, x:list, y:list, label:str = None, color='blue', linestyle='solid', linewidth=1):
         """Plot datas with a standard "line" graph.
 
         Parameters
         ----------
 
-        *   ``x``: list of the x values
-        *   ``y``: list of the y values
-        *   ``label``: label of the plot, used in the legend (if needed)
-        *   ``color``: color of the plot
-        *   ``linestyle``: style (solid, dashed, dotted, ...)
-        *   ``linewidth``: width of the plot
+        *   ``x``: list of the x values.
+        *   ``y``: list of the y values.
+        *   ``label``: label of the plot, used in the legend (if needed).
+        *   ``color``: color of the plot.
+        *   ``linestyle``: style (solid, dashed, dotted, ...).
+        *   ``linewidth``: width of the plot.
 
+        Possibilities
+        -------------
+            b : blue                        
+            g : green                      
+            r : red                         
+            c : cyan                          
+            m : magenta                    
+            y : yellow        
+            k : black         
+            w : white         
+            . : point                    
+            o : circle                    
+            x : x-mark                    
+            +: plus 
+            *: star                   
+            s : square
+            d : diamond
+            ^ : triangle (up)
+            v : triangle (down)
+            < : triangle (left)
+            > : triangle (right)
+            p : pentagram
+            h : hexagram
+            -: solid
+            -- : dashed  
+            : : dotted
+            -. : dashdot
+            (none) : no line
+                                                    
         """
         if (not(len(x) == len(y))):
             raise TypeError("x and y must have the same dimensions !")
