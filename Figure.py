@@ -193,7 +193,7 @@ class Graph:
         self.plot_labels = []
         self.__has_second_y_axis = False
 
-    def setAxisX(self, x_min:float, x_max:float, label:str = None):
+    def setAxisX(self, x_min:float, x_max:float, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
 
         Parameters
@@ -203,10 +203,12 @@ class Graph:
         *   ``x_max``: upper bound of the axis.
         *   ``label``: name of the axis (don't forget the units !).
         *   ```tick_each``: interval between each tick.
-        
+        *   ``color``: color of the label.
+        *   ``loc``: location of the label ('left', 'center', 'right').
+
         """
         if label != None:
-            self.plot.set_xlabel(label, fontsize=self.fig.template["x_label_size"])
+            self.plot.set_xlabel(label, color=color, loc=loc, fontsize=self.fig.template["x_label_size"])
         self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["x_tick_size"])
         self.plot.set_xlim([x_min, x_max])
 
@@ -223,23 +225,25 @@ class Graph:
         self.plot.xaxis.set_major_formatter(formatter)
 
 
-    def setAxisY(self, y_min:int, y_max:int, label:str = None):
+    def setAxisY(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the Y axis of the current graph.
 
         Parameters
         ----------
 
-        *   ``x_min``: the lower bound of the axis
-        *   ``x_max``: upper bound of the axis
-        *   ``label``: name of the axis (don't forget the units !)
+        *   ``x_min``: the lower bound of the axis.
+        *   ``x_max``: upper bound of the axis.
+        *   ``label``: name of the axis (don't forget the units !).
+        *   ``color``: color of the label.
+        *   ``loc``: location of the label ('top', 'center', 'bottom').
         
         """
         if label != None:
-            self.plot.set_ylabel(label, fontsize=self.fig.template["y_label_size"])
+            self.plot.set_ylabel(label, color=color, loc=loc, fontsize=self.fig.template["y_label_size"])
         self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
         self.plot.set_ylim([y_min, y_max])
 
-    def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None):
+    def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Create and set the labels and the interval of the second Y axis of the current graph.
 
         Parameters
@@ -248,12 +252,14 @@ class Graph:
         *   ``x_min``: the lower bound of the axis
         *   ``x_max``: upper bound of the axis
         *   ``label``: name of the axis (don't forget the units !)
+        *   ``color``: color of the label.
+        *   ``loc``: location of the label ('top', 'center', 'bottom').
         
         """
         self.__has_second_y_axis = True
         self.secondYAxis = self.plot.twinx()
         if label != None:
-            self.secondYAxis.set_ylabel(label, fontsize=self.fig.template["y_label_size"])
+            self.secondYAxis.set_ylabel(label, color=color, loc=loc, fontsize=self.fig.template["y_label_size"])
         self.secondYAxis.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
         self.secondYAxis.set_ylim([y_min, y_max])
 
