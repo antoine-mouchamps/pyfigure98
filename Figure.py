@@ -1,4 +1,9 @@
-from dependencies import *
+import matplotlib.pyplot as plt
+import math
+import numpy as np
+import datetime
+import matplotlib.ticker as tick
+
 
 class Figure:
     """Class containing everything needed in order to create complex figures with pultiple plots.
