@@ -41,8 +41,10 @@ class Figure:
         template_default["x_tick_size"] = 20
         template_default["y_tick_size"] = 20
         template_default["legend_size"] = 20
+        template_default["in_text_size"] = 15
         template_default["subplot_title_size"] = 30
         template_default["fig_title_size"] = 35
+        template_default["markersize"] = 10
 
         return template_default
     
@@ -65,7 +67,8 @@ class Figure:
                           x_label_size:int, y_label_size:int, 
                           x_tick_size:int, y_tick_size:int, 
                           legend_size:int, subplot_title_size:int,
-                          fig_title_size:int) -> None:
+                          fig_title_size:int, markersize:int,
+                          in_text_size:int) -> None:
         """Create a custom template;
 
         Parameters
@@ -80,7 +83,9 @@ class Figure:
         *   ``y_tick_size``: size of the tick numbers of the y axis.
         *   ``legend_size``: size of the text used in the legend.
         *   ``subplot_title_size``: size of the subtitles. 
-        *   ``fig_title_size``: size of the title of the figure.s
+        *   ``fig_title_size``: size of the title of the figure.
+        *   ``markersize``: size of the marker point.
+        *   ``in_text_size``: size of the texts inside the graph
         """
     
         template_custom = dict()
@@ -93,6 +98,8 @@ class Figure:
         template_custom["legend_size"] = legend_size
         template_custom["subplot_title_size"] = subplot_title_size
         template_custom["fig_title_size"] = fig_title_size
+        template_custom["markersize"] = markersize
+        template_custom["in_text_size"] = in_text_size
 
         self.custom_templates[name] = template_custom
 
@@ -375,10 +382,7 @@ class Graph:
             self.plot.spines['left'].set_visible(left)
             self.plot.spines['right'].set_visible(right)
 
-    def __X_Y_formatter(self, x, y, axis):
-        if(not(axis == "main" or axis =="sec")):
-           raise SyntaxError("The specified axis does not exist !")
-        
+    def __X_Y_formatter(self, x, y):
         if (not(len(x) == len(y))):
             raise TypeError("x and y must have the same dimensions !")
         
@@ -398,8 +402,15 @@ class Graph:
 
         return x, y
     
-
-
+    def __axis_formatter(self, axis)->plt.Axes:
+        if(not(axis == "main" or axis =="sec")):
+           raise SyntaxError("The specified axis does not exist !")
+        
+        plot_axis = self.plot
+        if(axis =="sec"):
+            plot_axis = self.secondYAxis
+        return plot_axis
+    
     def plotStandard(self, x:list, y:list, label:str = None, axis:str="main", color='blue', linestyle='solid', linewidth=1):
         """Plot datas with a standard "line" graph.
 
@@ -444,11 +455,8 @@ class Graph:
                                                     
         """
 
-        x, y = self.__X_Y_formatter(x, y, axis)
-
-        plot_axis = self.plot
-        if(axis =="sec"):
-            plot_axis = self.secondYAxis
+        x, y = self.__X_Y_formatter(x, y)
+        plot_axis = self.__axis_formatter(axis)
 
         plotted = False
         if(plotted == False and ("log" in self.__x_axis_params and "log" not in self.__y_axis_params)):
@@ -468,8 +476,12 @@ class Graph:
         else:
             self.plot_labels.append(label)
 
-    
-    """
-    def plotPointsWithText(self, x:list, y:list, text:list):
-        plt.text(traj[0,0], traj[0,1], "Point initial", fontdict={'fontsize': 20})
-        plt.plot(traj[0,0], traj[0,1], marker="o", markersize=10, markerfacecolor="green", label='_nolegend_') """
+    def plotPointsWithText(self, xs:list, ys:list, texts:list, axis:str="main", marker:str = 'o', color:str = "green"):
+
+        plot_axis = self.__axis_formatter(axis)
+        if (not(len(xs) == len(ys) and len(texts) == len(xs))):
+            raise TypeError("xs and ys must have the same dimensions !")
+
+        for (x, y, text) in zip(xs, ys, texts):
+            plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]})
+            plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=color, label='_nolegend_')
