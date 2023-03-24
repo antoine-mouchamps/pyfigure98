@@ -218,6 +218,11 @@ class Graph:
         self.__y_axis_is_logscale = False
         self.__y_axis_is_angular = False
 
+    def setGrid(self):
+        """Add grid lines to the graph
+        """
+        self.plot.grid()
+
     def setAxisX(self, x_min:float, x_max:float, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
 
