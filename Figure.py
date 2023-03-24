@@ -205,6 +205,7 @@ class Graph:
         self.__y_axis_has_second = False
         self.__x_axis_is_angular = False
         self.__x_axis_is_logscale = False
+        self.__y_axis_is_logscale = False
 
     def setAxisX(self, x_min:float, x_max:float, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
