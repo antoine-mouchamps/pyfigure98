@@ -15,6 +15,8 @@ class Figure:
     ----
 
     *   ``addGraph``
+    *   ``addCustomTemplate``
+    *   ``addFigure``
 
     Set*
     ----
@@ -182,21 +184,27 @@ class Graph:
     ----
 
         *   ``setAxisX``
+        *   ``setAxisXTimeAxis``
         *   ``setAxisY``
+        *   ``setAxisYSecondAxis``
         *   ``setTitle``
         *   ``setLegend``
+        *   ``setTitle``
 
     Plot*
     -----
 
         *   ``plotStandard``
+        *   ``plotStandardSecondAxis``
 
     """
     def __init__(self, fig:Figure, subPlot:plt.Axes) -> None:
         self.fig = fig
         self.plot = subPlot
         self.plot_labels = []
-        self.__has_second_y_axis = False
+        self.__y_axis_has_second = False
+        self.__x_axis_is_angular = False
+        self.__x_axis_is_logscale = False
 
     def setAxisX(self, x_min:float, x_max:float, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
@@ -217,8 +225,30 @@ class Graph:
         self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["x_tick_size"])
         self.plot.set_xlim([x_min, x_max])
 
-    def setTimeAxisX(self): # PROBLEMS WHEN X IS SMALL BECAUSE TICKS OVERLAP THEMSELVES
-        """ Set the X axis as a time axis in h/m/s.
+    def setAxisXPi(self, span:float = 1.0):
+        """Change the x axis to a multiple of pi axis.
+
+        Parameters
+        ----------
+
+        *   ``span``: set the span between two ticks.
+        """
+        self.__x_axis_is_angular = True
+        self.plot.xaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
+        self.plot.xaxis.set_major_locator(tick.MultipleLocator(base=span))
+
+    def setAxisXLogScale(self):
+        """Change the x axis to a base 10 logarithm scale.
+        """
+        self.__x_axis_is_logscale = True
+
+    def setAxisYLogScale(self):
+        """Change the y axis to a base 10 logarithm scale.
+        """
+        self.__y_axis_is_logscale = True
+
+    def setAxisXTimeAxis(self): # PROBLEMS WHEN X IS SMALL BECAUSE TICKS OVERLAP THEMSELVES
+        """ Set the X axis as a time axis in hh:mm:ss.
         """
         def timeTicks(xx, pos):
             d = datetime.timedelta(seconds=xx)
@@ -228,7 +258,6 @@ class Graph:
         self.plot.ticklabel_format(scilimits=(0, 0))
         formatter = tick.FuncFormatter(timeTicks)
         self.plot.xaxis.set_major_formatter(formatter)
-
 
     def setAxisY(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the Y axis of the current graph.
@@ -261,13 +290,12 @@ class Graph:
         *   ``loc``: location of the label ('top', 'center', 'bottom').
         
         """
-        self.__has_second_y_axis = True
+        self.__y_axis_has_second = True
         self.secondYAxis = self.plot.twinx()
         if label != None:
             self.secondYAxis.set_ylabel(label, color=color, loc=loc, fontsize=self.fig.template["y_label_size"])
         self.secondYAxis.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
         self.secondYAxis.set_ylim([y_min, y_max])
-
 
     def setTitle(self, label:str):
         """Set the title of the current graph.
@@ -359,6 +387,15 @@ class Graph:
         if (not(len(x) == len(y))):
             raise TypeError("x and y must have the same dimensions !")
         
+        if(self.__x_axis_is_angular == True):
+            x /=np.pi
+        
+        if(self.__x_axis_is_logscale == True and not(self.__y_axis_is_logscale == False)):
+            self.plot.semilogx(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+
+        if(self.__y_axis_is_logscale == True and not(self.__x_axis_is_logscale == False)):
+            self.plot.semilogy(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+
         self.plot.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
         
         if(label == None):
@@ -412,7 +449,10 @@ class Graph:
         if (not(len(x) == len(y))):
             raise TypeError("x and y must have the same dimensions !")
         
-        if(self.__has_second_y_axis == False):
+        if(self.__x_axis_is_angular == True):
+            x /=np.pi
+
+        if(self.__y_axis_has_second == False):
             raise KeyError("This graph does not have a second y axis. Create one first !")
         else:
             self.secondYAxis.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
