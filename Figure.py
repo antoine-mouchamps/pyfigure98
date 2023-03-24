@@ -115,11 +115,11 @@ class Figure:
             raise NameError("The template "+template+"does not exist.")
 
         if rows > 1:
-                x_size = self.template["fig_size_x"]*cols*1.1
+                x_size = self.template["fig_size_x"]*cols
         else:
             x_size = self.template["fig_size_x"]
         if cols > 1:
-            y_size = self.template["fig_size_y"]*rows*1.1
+            y_size = self.template["fig_size_y"]*rows
         else:
             y_size = self.template["fig_size_y"]
 
@@ -166,12 +166,14 @@ class Figure:
         *   ``name``: figure saved as "name.pdf"
         
         """
+        self.fig.tight_layout()
         self.fig.savefig(name+".pdf", bbox_inches='tight')
     
     def figShow(self):
         """Don't remember
         
         """
+        self.fig.tight_layout()
         self.fig.show()
 
 class Graph:
@@ -184,9 +186,15 @@ class Graph:
     ----
 
         *   ``setAxisX``
-        *   ``setAxisXTimeAxis``
+        *   ``setAxisXTimeScale``
+        *   ``setAxisXAngularScale``
+        *   ``setAxisXLogScale``
+
         *   ``setAxisY``
         *   ``setAxisYSecondAxis``
+        *   ``setAxisYAngularScale``
+        *   ``setAxisYLogScale``
+
         *   ``setTitle``
         *   ``setLegend``
         *   ``setTitle``
@@ -202,10 +210,13 @@ class Graph:
         self.fig = fig
         self.plot = subPlot
         self.plot_labels = []
-        self.__y_axis_has_second = False
+
         self.__x_axis_is_angular = False
         self.__x_axis_is_logscale = False
+    
+        self.__y_axis_has_second = False
         self.__y_axis_is_logscale = False
+        self.__y_axis_is_angular = False
 
     def setAxisX(self, x_min:float, x_max:float, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
@@ -226,7 +237,7 @@ class Graph:
         self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["x_tick_size"])
         self.plot.set_xlim([x_min, x_max])
 
-    def setAxisXPi(self, span:float = 1.0):
+    def setAxisXAngularScale(self, span:float = 1.0):
         """Change the x axis to a multiple of pi axis.
 
         Parameters
@@ -243,12 +254,7 @@ class Graph:
         """
         self.__x_axis_is_logscale = True
 
-    def setAxisYLogScale(self):
-        """Change the y axis to a base 10 logarithm scale.
-        """
-        self.__y_axis_is_logscale = True
-
-    def setAxisXTimeAxis(self): # PROBLEMS WHEN X IS SMALL BECAUSE TICKS OVERLAP THEMSELVES
+    def setAxisXTimeScale(self):
         """ Set the X axis as a time axis in hh:mm:ss.
         """
         def timeTicks(xx, pos):
@@ -259,6 +265,8 @@ class Graph:
         self.plot.ticklabel_format(scilimits=(0, 0))
         formatter = tick.FuncFormatter(timeTicks)
         self.plot.xaxis.set_major_formatter(formatter)
+
+        plt.setp(self.plot.xaxis.get_majorticklabels(), rotation=-30, ha="left", rotation_mode="anchor") 
 
     def setAxisY(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Set the labels and the interval of the Y axis of the current graph.
@@ -277,6 +285,23 @@ class Graph:
             self.plot.set_ylabel(label, color=color, loc=loc, fontsize=self.fig.template["y_label_size"])
         self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
         self.plot.set_ylim([y_min, y_max])
+
+    def setAxisYAngularScale(self, span:float = 1.0):
+        """Change the y axis to a multiple of pi axis.
+
+        Parameters
+        ----------
+
+        *   ``span``: set the span between two ticks.
+        """
+        self.__y_axis_is_angular = True
+        self.plot.yaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
+        self.plot.yaxis.set_major_locator(tick.MultipleLocator(base=span))
+
+    def setAxisYLogScale(self):
+        """Change the y axis to a base 10 logarithm scale.
+        """
+        self.__y_axis_is_logscale = True
 
     def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Create and set the labels and the interval of the second Y axis of the current graph.
@@ -388,14 +413,23 @@ class Graph:
         if (not(len(x) == len(y))):
             raise TypeError("x and y must have the same dimensions !")
         
-        if(self.__x_axis_is_angular == True):
+        if(self.__x_axis_is_angular == True and self.__y_axis_is_angular == False):
             x /=np.pi
         
-        if(self.__x_axis_is_logscale == True and not(self.__y_axis_is_logscale == False)):
+        elif(self.__y_axis_is_angular == True and self.__x_axis_is_angular == False):
+            y /=np.pi
+
+        elif(self.__y_axis_is_angular == True and self.__x_axis_is_angular == True):
+            print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
+        
+        if(self.__x_axis_is_logscale == True and self.__y_axis_is_logscale == False):
             self.plot.semilogx(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
 
-        if(self.__y_axis_is_logscale == True and not(self.__x_axis_is_logscale == False)):
+        elif(self.__y_axis_is_logscale == True and self.__x_axis_is_logscale == False):
             self.plot.semilogy(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+        
+        elif(self.__y_axis_is_logscale == True and self.__x_axis_is_logscale == True):
+            print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
 
         self.plot.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
         
