@@ -211,12 +211,12 @@ class Graph:
         self.plot = subPlot
         self.plot_labels = []
 
-        self.__x_axis_is_angular = False
-        self.__x_axis_is_logscale = False
-    
-        self.__y_axis_has_second = False
-        self.__y_axis_is_logscale = False
-        self.__y_axis_is_angular = False
+        self.__x_axis_params:dict[str, bool]
+        self.__x_axis_params = dict()
+
+        self.__y_axis_params:dict[str, bool]
+        self.__y_axis_params = dict()
+        
 
     def setGrid(self):
         """Add grid lines to the graph
@@ -250,18 +250,21 @@ class Graph:
 
         *   ``span``: set the span between two ticks.
         """
-        self.__x_axis_is_angular = True
+        self.__x_axis_params["angular"] = True
         self.plot.xaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
         self.plot.xaxis.set_major_locator(tick.MultipleLocator(base=span))
 
     def setAxisXLogScale(self):
         """Change the x axis to a base 10 logarithm scale.
         """
-        self.__x_axis_is_logscale = True
+        self.__x_axis_params["log"] = True
 
     def setAxisXTimeScale(self):
         """ Set the X axis as a time axis in hh:mm:ss.
         """
+        
+        self.__x_axis_params["time"] = True
+
         def timeTicks(xx, pos):
             d = datetime.timedelta(seconds=xx)
             return str(d)
@@ -299,14 +302,14 @@ class Graph:
 
         *   ``span``: set the span between two ticks.
         """
-        self.__y_axis_is_angular = True
+        self.__y_axis_params["angular"] = True
         self.plot.yaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
         self.plot.yaxis.set_major_locator(tick.MultipleLocator(base=span))
 
     def setAxisYLogScale(self):
         """Change the y axis to a base 10 logarithm scale.
         """
-        self.__y_axis_is_logscale = True
+        self.__y_axis_params["log"] = True
 
     def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None, color:str='black', loc:str='center'):
         """Create and set the labels and the interval of the second Y axis of the current graph.
@@ -321,7 +324,7 @@ class Graph:
         *   ``loc``: location of the label ('top', 'center', 'bottom').
         
         """
-        self.__y_axis_has_second = True
+        self.__y_axis_params["second"] = True
         self.secondYAxis = self.plot.twinx()
         if label != None:
             self.secondYAxis.set_ylabel(label, color=color, loc=loc, fontsize=self.fig.template["y_label_size"])
@@ -372,7 +375,32 @@ class Graph:
             self.plot.spines['left'].set_visible(left)
             self.plot.spines['right'].set_visible(right)
 
-    def plotStandard(self, x:list, y:list, label:str = None, color='blue', linestyle='solid', linewidth=1):
+    def __X_Y_formatter(self, x, y, axis):
+        if(not(axis == "main" or axis =="sec")):
+           raise SyntaxError("The specified axis does not exist !")
+        
+        if (not(len(x) == len(y))):
+            raise TypeError("x and y must have the same dimensions !")
+        
+        if(len(self.__x_axis_params) > 1):
+            raise SyntaxError("the X axis cannot have more than one formatter !")
+        if(len(self.__y_axis_params) > 1):
+            raise SyntaxError("the Y axis cannot have more than one formatter !")
+        
+        if("angular" in self.__x_axis_params):
+            x /=np.pi
+        
+        if("angular" in self.__y_axis_params):
+            y /=np.pi
+
+        if("log" in self.__x_axis_params and "log" in self.__y_axis_params):
+            print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
+
+        return x, y
+    
+
+
+    def plotStandard(self, x:list, y:list, label:str = None, axis:str="main", color='blue', linestyle='solid', linewidth=1):
         """Plot datas with a standard "line" graph.
 
         Parameters
@@ -415,89 +443,33 @@ class Graph:
             (none) : no line
                                                     
         """
-        if (not(len(x) == len(y))):
-            raise TypeError("x and y must have the same dimensions !")
-        
-        if(self.__x_axis_is_angular == True and self.__y_axis_is_angular == False):
-            x /=np.pi
-        
-        elif(self.__y_axis_is_angular == True and self.__x_axis_is_angular == False):
-            y /=np.pi
 
-        elif(self.__y_axis_is_angular == True and self.__x_axis_is_angular == True):
-            print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
-        
-        if(self.__x_axis_is_logscale == True and self.__y_axis_is_logscale == False):
-            self.plot.semilogx(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+        x, y = self.__X_Y_formatter(x, y, axis)
 
-        elif(self.__y_axis_is_logscale == True and self.__x_axis_is_logscale == False):
-            self.plot.semilogy(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
-        
-        elif(self.__y_axis_is_logscale == True and self.__x_axis_is_logscale == True):
-            print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
+        plot_axis = self.plot
+        if(axis =="sec"):
+            plot_axis = self.secondYAxis
 
-        self.plot.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+        plotted = False
+        if(plotted == False and ("log" in self.__x_axis_params and "log" not in self.__y_axis_params)):
+            plot_axis.semilogx(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+            plotted = True
+
+        elif(plotted == False and ("log" in self.__y_axis_params and "log" not in self.__x_axis_params)):
+            plot_axis.semilogy(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+            plotted = True
+
+        if(plotted == False):
+            plot_axis.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+            plotted = True
         
         if(label == None):
             self.plot_labels.append("")
         else:
             self.plot_labels.append(label)
 
-    def plotStandardSecondAxis(self, x:list, y:list, label:str = None, color='blue', linestyle='solid', linewidth=1):
-        """Plot datas with a standard "line" graph.
-
-        Parameters
-        ----------
-
-        *   ``x``: list of the x values.
-        *   ``y``: list of the y values.
-        *   ``label``: label of the plot, used in the legend (if needed).
-        *   ``color``: color of the plot.
-        *   ``linestyle``: style (solid, dashed, dotted, ...).
-        *   ``linewidth``: width of the plot.
-
-        Possibilities
-        -------------
-            b : blue                        
-            g : green                      
-            r : red                         
-            c : cyan                          
-            m : magenta                    
-            y : yellow        
-            k : black         
-            w : white         
-            . : point                    
-            o : circle                    
-            x : x-mark                    
-            +: plus 
-            *: star                   
-            s : square
-            d : diamond
-            ^ : triangle (up)
-            v : triangle (down)
-            < : triangle (left)
-            > : triangle (right)
-            p : pentagram
-            h : hexagram
-            -: solid
-            -- : dashed  
-            : : dotted
-            -. : dashdot
-            (none) : no line
-                                                    
-        """
-        if (not(len(x) == len(y))):
-            raise TypeError("x and y must have the same dimensions !")
-        
-        if(self.__x_axis_is_angular == True):
-            x /=np.pi
-
-        if(self.__y_axis_has_second == False):
-            raise KeyError("This graph does not have a second y axis. Create one first !")
-        else:
-            self.secondYAxis.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
-            
-            if(label == None):
-                self.plot.plot_labels.append("")
-            else:
-                self.plot_labels.append(label)
+    
+    """
+    def plotPointsWithText(self, x:list, y:list, text:list):
+        plt.text(traj[0,0], traj[0,1], "Point initial", fontdict={'fontsize': 20})
+        plt.plot(traj[0,0], traj[0,1], marker="o", markersize=10, markerfacecolor="green", label='_nolegend_') """
