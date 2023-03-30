@@ -137,15 +137,8 @@ class Figure:
         else:
             raise NameError("The template "+template+"does not exist.")
 
-        if rows > 1:
-                x_size = self.template["fig_size_x"]*cols
-        else:
-            x_size = self.template["fig_size_x"]
-        if cols > 1:
-            y_size = self.template["fig_size_y"]*rows
-        else:
-            y_size = self.template["fig_size_y"]
-
+        x_size = self.template["fig_size_x"]*cols
+        y_size = self.template["fig_size_y"]*rows
         self.fig = plt.figure(figsize = (x_size, y_size))
 
     def addGraph(self, name:str, row:int = 1, col:int = 1, index:int = 1):
