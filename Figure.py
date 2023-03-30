@@ -180,7 +180,7 @@ class Figure:
         *   ``title``: well, obvious
         
         """
-        self.fig.suptitle(title, fontsize=self.template["fig_title_size"])
+        self.fig.suptitle(title+"\n", fontsize=self.template["fig_title_size"])
 
     def figSave(self, name:str) -> None:
         """Save the figure to pdf format.
@@ -250,7 +250,7 @@ class Graph:
         """
         self.plot.grid()
 
-    def setAxisX(self, x_min:float, x_max:float, label:str = None, color:list = ['black', False], loc:str='center'):
+    def setAxisX(self, x_min:float=None, x_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
         """Set the labels and the interval of the X axis of the current graph.
 
         Parameters
@@ -258,10 +258,9 @@ class Graph:
 
         *   ``x_min``: the lower bound of the axis.
         *   ``x_max``: upper bound of the axis.
-        *   ``label``: name of the axis (don't forget the units !).
-        *   ```tick_each``: interval between each tick.
-        *   ``color``: color of the label.
-        *   ``loc``: location of the label ('left', 'center', 'right').
+        *   ``label``: (OPTIONNAL) name of the axis (don't forget the units !).
+        *   ``color``: (OPTIONNAL) color of the label.
+        *   ``loc``: (OPTIONNAL) location of the label ('left', 'center', 'right').
 
         """
         if label != None:
@@ -278,7 +277,7 @@ class Graph:
         Parameters
         ----------
 
-        *   ``span``: set the span between two ticks.
+        *   ``span``: (DEF=1) set the span between two ticks.
         """
         self.__x_axis_params["angular"] = True
         self.plot.xaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
@@ -306,7 +305,7 @@ class Graph:
 
         plt.setp(self.plot.xaxis.get_majorticklabels(), rotation=-30, ha="left", rotation_mode="anchor") 
 
-    def setAxisY(self, y_min:int, y_max:int, label:str = None, color:list = ['black', False], loc:str='center'):
+    def setAxisY(self, y_min:float, y_max:float, label:str = None, color:list = ['black', False], loc:str='center'):
         """Set the labels and the interval of the Y axis of the current graph.
 
         Parameters
@@ -314,9 +313,9 @@ class Graph:
 
         *   ``x_min``: the lower bound of the axis.
         *   ``x_max``: upper bound of the axis.
-        *   ``label``: name of the axis (don't forget the units !).
-        *   ``color``: color of the label.
-        *   ``loc``: location of the label ('top', 'center', 'bottom').
+        *   ``label``: (OPTIONNAL) name of the axis (don't forget the units !).
+        *   ``color``: (OPTIONNAL) color of the label.
+        *   ``loc``: (OPTIONNAL) location of the label ('top', 'center', 'bottom').
         
         """
         if label != None:
@@ -333,7 +332,7 @@ class Graph:
         Parameters
         ----------
 
-        *   ``span``: set the span between two ticks.
+        *   ``span``: (DEF=1) set the span between two ticks.
         """
         self.__y_axis_params["angular"] = True
         self.plot.yaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
@@ -344,17 +343,17 @@ class Graph:
         """
         self.__y_axis_params["log"] = True
 
-    def setAxisYSecondAxis(self, y_min:int, y_max:int, label:str = None, color:list = ['black', False], loc:str='center'):
+    def setAxisYSecondAxis(self, y_min:int=None, y_max:int=None, label:str = None, color:list = ['black', False], loc:str='center'):
         """Create and set the labels and the interval of the second Y axis of the current graph.
 
         Parameters
         ----------
 
-        *   ``x_min``: the lower bound of the axis
-        *   ``x_max``: upper bound of the axis
-        *   ``label``: name of the axis (don't forget the units !)
-        *   ``color``: color of the label.
-        *   ``loc``: location of the label ('top', 'center', 'bottom').
+        *   ``x_min``: (OPTIONNAL) the lower bound of the axis.
+        *   ``x_max``: (OPTIONNAL) upper bound of the axis.
+        *   ``label``: (OPTIONNAL) name of the axis (don't forget the units !).
+        *   ``color``: (OPTIONNAL) color of the label.
+        *   ``loc``: (OPTIONNAL) location of the label ('top', 'center', 'bottom').
         
         """
         self.__y_axis_params["second"] = True
@@ -383,7 +382,7 @@ class Graph:
         Parameters
         ----------
 
-        *   ``loc``: location of the legend (best, lower/upper/# + left/right/center)
+        *   ``loc``: (OPTIONNAL) location of the legend (best, lower/upper/# + left/right/center)
         
         """
         self.__is_legend_plotted = True
@@ -443,18 +442,19 @@ class Graph:
             plot_axis = self.secondYAxis
         return plot_axis
     
-    def plotStandard(self, x:list, y:list, label:str = None, axis:str="main", color='blue', linestyle='solid', linewidth=1):
+    def plotStandard(self, axis:str="main", x:list=None, y:list=None, label:str=None, color='blue', linestyle='solid', linewidth=1):
         """Plot datas with a standard "line" graph.
 
         Parameters
         ----------
 
+        *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
         *   ``x``: list of the x values.
         *   ``y``: list of the y values.
-        *   ``label``: label of the plot, used in the legend (if needed).
-        *   ``color``: color of the plot.
-        *   ``linestyle``: style (solid, dashed, dotted, ...).
-        *   ``linewidth``: width of the plot.
+        *   ``label``: (OPTIONNAL) label of the plot, used in the legend (if needed).
+        *   ``color``: (OPTIONNAL) color of the plot.
+        *   ``linestyle``: (OPTIONNAL) style (solid, dashed, dotted, ...).
+        *   ``linewidth``: (OPTIONNAL) width of the plot.
 
         Possibilities
         -------------
@@ -510,19 +510,19 @@ class Graph:
             self.plot_labels[0].append(line)
             self.plot_labels[1].append(label)
 
-    def plotPointsWithText(self, xs:list, ys:list, texts:list, axis:str="main", marker:str = 'o', markercolor:str = "green", color:str = "black"):
+    def plotPointsWithText(self, axis:str="main", xs:list=None, ys:list=None, texts:list=None, marker:str = 'o', markercolor:str = "green", color:str = "black"):
         """Plot a point with some text attached to it.
 
         Parameters
         ----------
 
+        *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
         *   ``xs``: list of the x at which to plot the points/texts.
         *   ``ys``: list of the y at which to plot the points/texts.
         *   ``texts``: list of the texts to plot.
-        *   ``axis``: axis on which to plot ("main" or "sec").
-        *   ``marker``: which marker to use.
-        *   ``markercolor``: color of the marker.
-        *   ``color``: color of the text.
+        *   ``marker``: (OPTIONNAL) which marker to use.
+        *   ``markercolor``: (OPTIONNAL) color of the marker.
+        *   ``color``: (OPTIONNAL) color of the text.
         """
 
         plot_axis = self.__axis_formatter(axis)
@@ -533,37 +533,43 @@ class Graph:
             plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
             plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=markercolor, label='_nolegend_')
 
-    def plotText(self, x, y, text, axis:str="main", color:str="black"):
+    def plotText(self, axis:str="main", x=None, y=None, text:str=None, color:str="black"):
         """Plot text on the graph.
 
         Parameters
         ----------
 
+        *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
         *   ``x``:  x at which to plot the points/texts.
         *   ``y``:  y at which to plot the points/texts.
         *   ``text``: text to plot.
-        *   ``axis``: axis on which to plot ("main" or "sec").
-        *   ``color``: color of the text.
+        *   ``color``: (OPTIONNAL) color of the text.
         """
 
         plot_axis = self.__axis_formatter(axis)
 
         plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
 
-    def plotPcolor(self, C, axis:str="main", vmin=None, vmax=None):
+    def plotPcolor(self, axis:str="main", C=None, vmin=None, vmax=None, cmap:str='inferno'):
         """Plot a graph where the colour indicates the value monitered on a 2D grid. Not easy to describe okay ??
 
         Parameters
         ----------
 
-        *   ``C``: 
-        *   ``vmin``:
-        *   ``vmax``:
-        *   ``axis``: axis on which to plot ("main" or "sec").
+        *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
+        *   ``C``: Array to plot. Must be 2D where the first dimension corresponds to the x axis and the second one to the y axis.
+        The value at ij is plotted at the coordinates (x;y).
+        *   ``vmin``: (OPTIONNAL) minimum value to take into account in the color scale.
+        *   ``vmax``: (OPTIONNAL) maximum value to take into account in the color scale.
+        *   ``cmap``: (OPTIONNAL) colors of the colorbar
 
         """
+
+        if(not(C.ndim == 2)):
+            raise TypeError("C must a 2D array !") 
+
         plot_axis = self.__axis_formatter(axis)
-        mappable = plot_axis.pcolormesh(C, cmap="inferno", vmin=vmin, vmax=vmax)
+        mappable = plot_axis.pcolormesh(C, cmap=cmap, vmin=vmin, vmax=vmax)
         cbar = plt.colorbar(mappable=mappable)
         cbar.set_label('Amplitude du signal', rotation=270, labelpad=30, size=self.fig.template["label_size"])
         cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
