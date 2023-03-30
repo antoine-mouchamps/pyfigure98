@@ -36,23 +36,17 @@ class Figure:
         template_default = dict()
         template_default["fig_size_x"] = 11
         template_default["fig_size_y"] = 8
-        template_default["x_label_size"] = 25
-        template_default["y_label_size"] = 25
-        template_default["x_tick_size"] = 20
-        template_default["y_tick_size"] = 20
+        template_default["label_size"] = 25
+        template_default["tick_size"] = 20
         template_default["legend_size"] = 20
-        template_default["in_text_size"] = 15
+        template_default["in_text_size"] = 20
         template_default["subplot_title_size"] = 30
         template_default["fig_title_size"] = 35
         template_default["markersize"] = 10
-        template_default["x_tick_width_major"] = 2.25
-        template_default["x_tick_length_major"] = 5
-        template_default["x_tick_width_minor"] = 1.75
-        template_default["x_tick_length_minor"] = 3
-        template_default["y_tick_width_major"] = 2.25
-        template_default["y_tick_length_major"] = 5
-        template_default["y_tick_width_minor"] = 1.75
-        template_default["y_tick_length_minor"] = 3        
+        template_default["tick_width_major"] = 2.25
+        template_default["tick_length_major"] = 5
+        template_default["tick_width_minor"] = 1.75
+        template_default["tick_length_minor"] = 3        
 
         return template_default
     
@@ -75,23 +69,17 @@ class Figure:
                           name:str, 
                           fig_size_x:int = 11, 
                           fig_size_y:int = 8, 
-                          x_label_size:int = 25, 
-                          y_label_size:int = 25, 
-                          x_tick_size:int = 20, 
-                          y_tick_size:int = 20, 
+                          label_size:int = 25, 
+                          tick_size:int = 20, 
                           legend_size:int = 20, 
-                          in_text_size:int = 15,
+                          in_text_size:int = 20,
                           subplot_title_size:int = 30,
                           fig_title_size:int = 35, 
                           markersize:int = 10,
-                          x_tick_width_major:float = 2.25,
-                          x_tick_length_major:float = 5,
-                          x_tick_width_minor:float = 1.75,
-                          x_tick_length_minor:float = 3,
-                          y_tick_width_major:float = 2.25,
-                          y_tick_length_major:float = 5,
-                          y_tick_width_minor:float = 1.75,
-                          y_tick_length_minor:float = 3,
+                          tick_width_major:float = 2.25,
+                          tick_length_major:float = 5,
+                          tick_width_minor:float = 1.75,
+                          tick_length_minor:float = 3,
                           ) -> None:
         """Create a custom template;
 
@@ -101,45 +89,33 @@ class Figure:
         *   ``name``: name of the template.
         *   ``fig_size_x``: default x size of a figure when there is only one plot.
         *   ``fig_size_y``: default y size of a figure when there is only one plot.
-        *   ``x_label_size``: size of the label of the x axis.
-        *   ``y_label_size``: size of the label of the y axis.
-        *   ``x_tick_size``: size of the tick numbers of the x axis.
-        *   ``y_tick_size``: size of the tick numbers of the y axis.
+        *   ``label_size``: size of the labels of the axis.
+        *   ``tick_size``: size of the tick numbers of the axis.
         *   ``legend_size``: size of the text used in the legend.
         *   ``subplot_title_size``: size of the subtitles. 
         *   ``fig_title_size``: size of the title of the figure.
         *   ``markersize``: size of the marker point.
         *   ``in_text_size``: size of the texts inside the graph.
-        *   ``x_tick_width_major``: width of the major line next to the tick label of the x axis. 
-        *   ``x_tick_length_major``: length of the major line next to the tick label of the x axis. 
-        *   ``x_tick_width_minor``: width of the minor line next to the tick label of the x axis. 
-        *   ``x_tick_length_minor``: length of the minor line next to the tick label of the x axis. 
-        *   ``y_tick_width_major``: width of the major line next to the tick label of the y axis.
-        *   ``y_tick_length_major``: length of the major line next to the tick label of the y axis.
-        *   ``y_tick_width_minor``: width of the minor line next to the tick label of the y axis.
-        *   ``y_tick_length_minor``: length of the minor line next to the tick label of the y axis.
+        *   ``tick_width_major``: width of the major line next to the tick label of the axis. 
+        *   ``tick_length_major``: length of the major line next to the tick label of the axis. 
+        *   ``tick_width_minor``: width of the minor line next to the tick label of the axis. 
+        *   ``tick_length_minor``: length of the minor line next to the tick label of the axis. 
         """
     
         template_custom = dict()
         template_custom["fig_size_x"] = fig_size_x
         template_custom["fig_size_y"] = fig_size_y
-        template_custom["x_label_size"] = x_label_size
-        template_custom["y_label_size"] = y_label_size
-        template_custom["x_tick_size"] = x_tick_size
-        template_custom["y_tick_size"] = y_tick_size
+        template_custom["label_size"] = label_size
+        template_custom["tick_size"] = tick_size
         template_custom["legend_size"] = legend_size
         template_custom["subplot_title_size"] = subplot_title_size
         template_custom["fig_title_size"] = fig_title_size
         template_custom["markersize"] = markersize
         template_custom["in_text_size"] = in_text_size
-        template_custom["x_tick_width_major"] = x_tick_width_major
-        template_custom["x_tick_length_major"] = x_tick_length_major
-        template_custom["x_tick_width_minor"] = x_tick_width_minor
-        template_custom["x_tick_length_minor"] = x_tick_length_minor
-        template_custom["y_tick_width_major"] = y_tick_width_major
-        template_custom["y_tick_length_major"] = y_tick_length_major
-        template_custom["y_tick_width_minor"] = y_tick_width_minor
-        template_custom["y_tick_length_minor"] = y_tick_length_minor
+        template_custom["tick_width_major"] = tick_width_major
+        template_custom["tick_length_major"] = tick_length_major
+        template_custom["tick_width_minor"] = tick_width_minor
+        template_custom["tick_length_minor"] = tick_length_minor
 
         self.custom_templates[name] = template_custom
 
@@ -265,6 +241,8 @@ class Graph:
 
         self.__y_axis_params:dict[str, bool]
         self.__y_axis_params = dict()
+
+        self.__is_legend_plotted = False
         
 
     def setGrid(self):
@@ -287,9 +265,9 @@ class Graph:
 
         """
         if label != None:
-            self.plot.set_xlabel(label, color=color[0], loc=loc, fontsize=self.fig.template["x_label_size"])
-        self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["x_tick_size"], width=self.fig.template["x_tick_width_major"], length=self.fig.template["x_tick_length_major"])
-        self.plot.tick_params(axis='x', which='minor', width=self.fig.template["x_tick_width_minor"], length=self.fig.template["x_tick_length_minor"])
+            self.plot.set_xlabel(label, color=color[0], loc=loc, fontsize=self.fig.template["label_size"])
+        self.plot.tick_params(axis='x', which='major', labelsize=self.fig.template["tick_size"], width=self.fig.template["tick_width_major"], length=self.fig.template["tick_length_major"])
+        self.plot.tick_params(axis='x', which='minor', width=self.fig.template["tick_width_minor"], length=self.fig.template["tick_length_minor"])
         if(color[1]):
             self.plot.tick_params(axis='x', which='major', colors=color[0])
         self.plot.set_xlim([x_min, x_max])
@@ -342,11 +320,11 @@ class Graph:
         
         """
         if label != None:
-            self.plot.set_ylabel(label, color=color[0], loc=loc, fontsize=self.fig.template["y_label_size"])
+            self.plot.set_ylabel(label, color=color[0], loc=loc, fontsize=self.fig.template["label_size"])
         if(color[1]):
             self.plot.tick_params(axis='y', which='major', colors=color[0])
-        self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"], width=self.fig.template["y_tick_width_major"], length=self.fig.template["y_tick_length_major"])
-        self.plot.tick_params(axis='y', which='minor', width=self.fig.template["y_tick_width_minor"], length=self.fig.template["y_tick_length_minor"])
+        self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["tick_size"], width=self.fig.template["tick_width_major"], length=self.fig.template["tick_length_major"])
+        self.plot.tick_params(axis='y', which='minor', width=self.fig.template["tick_width_minor"], length=self.fig.template["tick_length_minor"])
         self.plot.set_ylim([y_min, y_max])
 
     def setAxisYAngularScale(self, span:float = 1.0):
@@ -382,10 +360,10 @@ class Graph:
         self.__y_axis_params["second"] = True
         self.secondYAxis = self.plot.twinx()
         if label != None:
-            self.secondYAxis.set_ylabel(label, color=color[0], loc=loc, fontsize=self.fig.template["y_label_size"])
+            self.secondYAxis.set_ylabel(label, color=color[0], loc=loc, fontsize=self.fig.template["label_size"])
         if(color[1]):
             self.secondYAxis.tick_params(axis='y', which='major', colors=color[0])
-        self.secondYAxis.tick_params(axis='y', which='major', labelsize=self.fig.template["y_tick_size"])
+        self.secondYAxis.tick_params(axis='y', which='major', labelsize=self.fig.template["tick_size"])
         self.secondYAxis.set_ylim([y_min, y_max])
 
     def setTitle(self, label:str):
@@ -408,7 +386,7 @@ class Graph:
         *   ``loc``: location of the legend (best, lower/upper/# + left/right/center)
         
         """
-        
+        self.__is_legend_plotted = True
         self.plot.legend(self.plot_labels[0], self.plot_labels[1], loc=loc, fontsize=self.fig.template["legend_size"])
 
     def setBorders(self, config:str = None,left:bool = True, right:bool = True, top:bool = True, bottom:bool = True):
@@ -457,6 +435,9 @@ class Graph:
         if(not(axis == "main" or axis =="sec")):
            raise SyntaxError("The specified axis does not exist !")
         
+        if self.__is_legend_plotted == True:
+            print("WARNING: the legend is already plotted so anything plotted afterwards will not have its label shown.")
+
         plot_axis = self.plot
         if(axis =="sec"):
             plot_axis = self.secondYAxis
@@ -529,12 +510,63 @@ class Graph:
             self.plot_labels[0].append(line)
             self.plot_labels[1].append(label)
 
-    def plotPointsWithText(self, xs:list, ys:list, texts:list, axis:str="main", marker:str = 'o', color:str = "green"):
+    def plotPointsWithText(self, xs:list, ys:list, texts:list, axis:str="main", marker:str = 'o', markercolor:str = "green", color:str = "black"):
+        """Plot a point with some text attached to it.
+
+        Parameters
+        ----------
+
+        *   ``xs``: list of the x at which to plot the points/texts.
+        *   ``ys``: list of the y at which to plot the points/texts.
+        *   ``texts``: list of the texts to plot.
+        *   ``axis``: axis on which to plot ("main" or "sec").
+        *   ``marker``: which marker to use.
+        *   ``markercolor``: color of the marker.
+        *   ``color``: color of the text.
+        """
 
         plot_axis = self.__axis_formatter(axis)
         if (not(len(xs) == len(ys) and len(texts) == len(xs))):
             raise TypeError("xs and ys must have the same dimensions !")
 
         for (x, y, text) in zip(xs, ys, texts):
-            plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]})
-            plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=color, label='_nolegend_')
+            plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
+            plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=markercolor, label='_nolegend_')
+
+    def plotText(self, x, y, text, axis:str="main", color:str="black"):
+        """Plot text on the graph.
+
+        Parameters
+        ----------
+
+        *   ``x``:  x at which to plot the points/texts.
+        *   ``y``:  y at which to plot the points/texts.
+        *   ``text``: text to plot.
+        *   ``axis``: axis on which to plot ("main" or "sec").
+        *   ``color``: color of the text.
+        """
+
+        plot_axis = self.__axis_formatter(axis)
+
+        plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
+
+    def plotPcolor(self, C, axis:str="main", vmin=None, vmax=None):
+        """Plot a graph where the colour indicates the value monitered on a 2D grid. Not easy to describe okay ??
+
+        Parameters
+        ----------
+
+        *   ``C``: 
+        *   ``vmin``:
+        *   ``vmax``:
+        *   ``axis``: axis on which to plot ("main" or "sec").
+
+        """
+        plot_axis = self.__axis_formatter(axis)
+        mappable = plot_axis.pcolormesh(C, cmap="inferno", vmin=vmin, vmax=vmax)
+        cbar = plt.colorbar(mappable=mappable)
+        cbar.set_label('Amplitude du signal', rotation=270, labelpad=30, size=self.fig.template["label_size"])
+        cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
+
+        
+
