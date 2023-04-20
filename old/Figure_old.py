@@ -30,27 +30,7 @@ class Figure:
     *   ``figShow``
     
     """
-    
-    
-    def __template_default(self) -> dict:
-        template_default = dict()
-        template_default["fig_size_x"] = 11
-        template_default["fig_size_y"] = 8
-        template_default["label_size"] = 25
-        template_default["tick_size"] = 20
-        template_default["legend_size"] = 20
-        template_default["in_text_size"] = 20
-        template_default["subplot_title_size"] = 30
-        template_default["fig_title_size"] = 35
-        template_default["markersize"] = 10
-        template_default["tick_width_major"] = 2.25
-        template_default["tick_length_major"] = 5
-        template_default["tick_width_minor"] = 1.75
-        template_default["tick_length_minor"] = 3        
-
-        return template_default
-    
-    
+   
     def __init__(self) -> None:
         """Create a new figure.
 

@@ -1,0 +1,78 @@
+from ._place_holder import Figure
+from .Graph import Graph
+import matplotlib.pyplot as plt
+
+def addFigure(self, template:str = "default", rows:int = 1, cols:int = 1) -> None:
+    """Create a new figure.
+
+    Parameters
+    ----------
+
+    *   ``template``: Set the template used by the figure, i.e. all the font sizes used by the different components.
+    *   ``rows``: Set the horizontal size of the figure by multiplying the default size of a plot (found in the template used) by this
+    value. ``rows`` should thus be equal to the maximum amount of plots that will be placed horizontally.
+    *   ``cols``: Set the vertical size of the figure by multiplying the default size of a plot (found in the template used) by this
+    value. ``col`` should thus be equal to the maximum amount of plots that will be placed vertically.
+    """
+
+    if(template in self.templates):
+        self.template = self.templates[template]
+    else:
+        raise NameError("The template "+template+"does not exist.")
+
+    x_size = self.template["fig_size_x"]*cols
+    y_size = self.template["fig_size_y"]*rows
+    self.fig = plt.figure(figsize = (x_size, y_size))
+
+def addGraph(self, name:str, row:int = 1, col:int = 1, index:int = 1)->Graph:
+    """Add a graph to the current figure. 
+
+    Parameters:
+    --------
+
+    *   ``name``: name of the graph, used to recognize this specific graph
+    *   ``row``: row number
+    *   ``col``: column number
+    *   ``index``: location of the graph
+
+    Details:
+    --------
+    Explanation: specify the location and size of the graph on the figure. The row and col parameters determine the size of the grid,
+    like if the figure was a table. Then, the index parameter specify in which block of the table the added graph has to go
+    starting from the upper left corner and ending at the lower right. \n
+    /!\ the table system doesn't actually exist, it is only there to give a position and a size to the added graph.
+    """
+    new_graph = Graph(self, self.fig.add_subplot(row, col, index))
+    self.graphs[name] = new_graph
+
+    return self.graphs[name]
+
+def setTitle(self, title:str) -> None:
+    """Set the main title of the figure.
+
+    Parameters
+    ----------
+    
+    *   ``title``: well, obvious
+    
+    """
+    self.fig.suptitle(title+"\n", fontsize=self.template["fig_title_size"])
+
+def figSave(self, name:str) -> None:
+    """Save the figure to pdf format.
+
+    Parameters
+    ----------
+
+    *   ``name``: figure saved as "name.pdf"
+    
+    """
+    self.fig.tight_layout()
+    self.fig.savefig(name+".pdf", bbox_inches='tight')
+
+def figShow(self):
+    """Don't remember
+    
+    """
+    self.fig.tight_layout()
+    plt.show()
