@@ -4,7 +4,7 @@ import datetime
 import matplotlib.ticker as tick
 import matplotlib.pyplot as plt
 
-def setAxisX(self, x_min:float=None, x_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
+def setAxisX(self:Graph_, x_min:float=None, x_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
     """Set the labels and the interval of the X axis of the current graph.
 
     Parameters
@@ -26,7 +26,7 @@ def setAxisX(self, x_min:float=None, x_max:float=None, label:str = None, color:l
     if(not(x_min == None and x_max == None)):
         self.plot.set_xlim([x_min, x_max])
 
-def setAxisXAngularScale(self, span:float = 1.0):
+def setAxisXAngularScale(self:Graph_, span:float = 1.0):
     """Change the x axis to a multiple of pi axis.
 
     Parameters
@@ -38,12 +38,12 @@ def setAxisXAngularScale(self, span:float = 1.0):
     self.plot.xaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
     self.plot.xaxis.set_major_locator(tick.MultipleLocator(base=span))
 
-def setAxisXLogScale(self):
+def setAxisXLogScale(self:Graph_):
     """Change the x axis to a base 10 logarithm scale.
     """
     self._x_axis_params["log"] = True
 
-def setAxisXTimeScale(self):
+def setAxisXTimeScale(self:Graph_):
     """ Set the X axis as a time axis in hh:mm:ss.
     """
     
@@ -60,7 +60,7 @@ def setAxisXTimeScale(self):
 
     plt.setp(self.plot.xaxis.get_majorticklabels(), rotation=-30, ha="left", rotation_mode="anchor") 
 
-def setAxisY(self, y_min:float=None, y_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
+def setAxisY(self:Graph_, y_min:float=None, y_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
     """Set the labels and the interval of the Y axis of the current graph.
 
     Parameters
@@ -82,7 +82,7 @@ def setAxisY(self, y_min:float=None, y_max:float=None, label:str = None, color:l
     if(not(y_min == None and y_max == None)):
         self.plot.set_ylim([y_min, y_max])
 
-def setAxisYAngularScale(self, span:float = 1.0):
+def setAxisYAngularScale(self:Graph_, span:float = 1.0):
     """Change the y axis to a multiple of pi axis.
 
     Parameters
@@ -94,12 +94,12 @@ def setAxisYAngularScale(self, span:float = 1.0):
     self.plot.yaxis.set_major_formatter(tick.FormatStrFormatter('%g$\pi$'))
     self.plot.yaxis.set_major_locator(tick.MultipleLocator(base=span))
 
-def setAxisYLogScale(self):
+def setAxisYLogScale(self:Graph_):
     """Change the y axis to a base 10 logarithm scale.
     """
     self._y_axis_params["log"] = True
 
-def setAxisYSecondAxis(self, y_min:int=None, y_max:int=None, label:str = None, color:list = ['black', False], loc:str='center'):
+def setAxisYSecondAxis(self:Graph_, y_min:int=None, y_max:int=None, label:str = None, color:list = ['black', False], loc:str='center'):
     """Create and set the labels and the interval of the second Y axis of the current graph.
 
     Parameters

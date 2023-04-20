@@ -103,7 +103,7 @@ def plotStandard(self:Graph_, axis:str="main", x:list=None, y:list=None, label:s
         self.plot_labels[0].append(line)
         self.plot_labels[1].append(label)
 
-def plotPointsWithText(self, axis:str="main", xs:list=None, ys:list=None, texts:list=None, marker:str = 'o', markercolor:str = "green", color:str = "black"):
+def plotPointsWithText(self:Graph_, axis:str="main", xs:list=None, ys:list=None, texts:list=None, marker:str = 'o', markercolor:str = "green", color:str = "black"):
     """Plot a point with some text attached to it.
 
     Parameters
@@ -126,7 +126,7 @@ def plotPointsWithText(self, axis:str="main", xs:list=None, ys:list=None, texts:
         plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
         plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=markercolor, label='_nolegend_')
 
-def plotText(self, axis:str="main", x=None, y=None, text:str=None, color:str="black"):
+def plotText(self:Graph_, axis:str="main", x=None, y=None, text:str=None, color:str="black"):
     """Plot text on the graph.
 
     Parameters
@@ -143,7 +143,7 @@ def plotText(self, axis:str="main", x=None, y=None, text:str=None, color:str="bl
 
     plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
 
-def plotPcolor(self, axis:str="main", grid_span:float=1.0, C=None, vmin=None, vmax=None, cmap:str='inferno', shading:str='flat'):
+def plotPcolor(self:Graph_, axis:str="main", grid_span:float=1.0, C=None, vmin=None, vmax=None, cmap:str='inferno', shading:str='flat'):
     """Plot a graph where the colour indicates the greatness of the value on a 2D grid. Not easy to describe okay ??
 
     Parameters
@@ -186,7 +186,7 @@ def plotPcolor(self, axis:str="main", grid_span:float=1.0, C=None, vmin=None, vm
     plot_axis = __axis_formatter(self, axis)
     self._mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin, vmax=vmax, shading=shading)
 
-def plotCbar(self, label=None, orientation:str="vertical"):
+def plotCbar(self:Graph_, label=None, orientation:str="vertical"):
     """
     
     Parameters
@@ -204,7 +204,7 @@ def plotCbar(self, label=None, orientation:str="vertical"):
         cbar.set_label(label, rotation=270, labelpad=30, size=self.fig.template["label_size"])
     cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
 
-def setScale(self, axis:str="main", scaling:str="same"):
+def setScale(self:Graph_, axis:str="main", scaling:str="same"):
     """Set the scale of the x and y axes.
 
     Parameters
@@ -221,7 +221,7 @@ def setScale(self, axis:str="main", scaling:str="same"):
     else:
         raise ValueError('"'+scaling+'" is is not a valid scaling !')
     
-def plotVectorField(self, axis:str="main", x=None, y=None, grid_span:float=1.0, color:str="black"):
+def plotVectorField(self:Graph_, axis:str="main", x=None, y=None, grid_span:float=1.0, color:str="black"):
     """Plot a vector field, perfect for fluid streams.
 
     Parameters

@@ -16,7 +16,7 @@ def setTitle(self:Graph_, label:str):
     """
     self.plot.set_title(label, fontsize = self.fig.template["subplot_title_size"])
 
-def setLegend(self, loc:str = "best"):
+def setLegend(self:Graph_, loc:str = "best"):
     """Set the legend of the current graph.
 
     Parameters
@@ -28,7 +28,7 @@ def setLegend(self, loc:str = "best"):
     self._is_legend_plotted = True
     self.plot.legend(self.plot_labels[0], self.plot_labels[1], loc=loc, fontsize=self.fig.template["legend_size"])
 
-def setBorders(self, config:str = None,left:bool = True, right:bool = True, top:bool = True, bottom:bool = True):
+def setBorders(self:Graph_, config:str = None,left:bool = True, right:bool = True, top:bool = True, bottom:bool = True):
     """Set the 4 borders of the graph.
     Set ``config`` to "upper-right" to disable the right and upper border.
     

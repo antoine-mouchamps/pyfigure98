@@ -1,25 +1,23 @@
 import matplotlib.pyplot as plt
+import matplotlib
 
 class Figure:
     def __init__(self):
         self.graphs:dict[str, Graph_]
-        self.graphs = dict()
 
         self.templates:dict[str, dict]
-        self.templates = dict()
-        self.templates["default"] = self.__template_default()
+
+        self.fig:matplotlib.figure.Figure
 
 class Graph_:
     def __init__(self, fig:Figure, subPlot:plt.Axes):
-        self.fig = fig
-        self.plot = subPlot
+        self.fig:Figure
+        self.plot:plt.Axes
         self.plot_labels = [[], []]
 
         self._x_axis_params:dict[str, bool]
-        self._x_axis_params = dict()
 
         self._y_axis_params:dict[str, bool]
-        self._y_axis_params = dict()
 
-        self._is_legend_plotted = False
-        self._mappable = None
+        self._is_legend_plotted:bool
+        self._mappable:bool

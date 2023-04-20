@@ -1,6 +1,8 @@
 from .Graph import Graph
 
 from ._template_handling import getAllTemplates
+import matplotlib.pyplot as plt
+import matplotlib
 
 class Figure:
     """Class containing everything needed in order to create complex figures with pultiple plots.
@@ -39,6 +41,8 @@ class Figure:
 
         self.templates:dict[str, dict]
         self.templates = getAllTemplates()
+
+        self.fig:matplotlib.figure.Figure
 
     #from ._template_handling import addCustomTemplate
 

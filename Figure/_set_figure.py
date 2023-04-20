@@ -2,7 +2,7 @@ from ._place_holder import Figure
 from .Graph import Graph
 import matplotlib.pyplot as plt
 
-def addFigure(self, template:str = "default", rows:int = 1, cols:int = 1) -> None:
+def addFigure(self:Figure, template:str = "default", rows:int = 1, cols:int = 1) -> None:
     """Create a new figure.
 
     Parameters
@@ -24,7 +24,9 @@ def addFigure(self, template:str = "default", rows:int = 1, cols:int = 1) -> Non
     y_size = self.template["fig_size_y"]*rows
     self.fig = plt.figure(figsize = (x_size, y_size))
 
-def addGraph(self, name:str, row:int = 1, col:int = 1, index:int = 1)->Graph:
+    print("New figure created")
+
+def addGraph(self:Figure, name:str, row:int = 1, col:int = 1, index:int = 1)->Graph:
     """Add a graph to the current figure. 
 
     Parameters:
@@ -40,14 +42,20 @@ def addGraph(self, name:str, row:int = 1, col:int = 1, index:int = 1)->Graph:
     Explanation: specify the location and size of the graph on the figure. The row and col parameters determine the size of the grid,
     like if the figure was a table. Then, the index parameter specify in which block of the table the added graph has to go
     starting from the upper left corner and ending at the lower right. \n
-    /!\ the table system doesn't actually exist, it is only there to give a position and a size to the added graph.
+    /!\ the table system doesn't actually exist, it is only there to give a position and a size to the added graph. It is thus possible
+    to use different size for different graphs. For example when using a 2x2 grid, plotting two graphs with (2,2,1) and (2,2,2) with a
+    third one (2,1,2) will gives the following structure: \n
+    _______
+    |__|__|
+    |_____|
     """
     new_graph = Graph(self, self.fig.add_subplot(row, col, index))
     self.graphs[name] = new_graph
 
+    print(f'Graph "{name}" created')
     return self.graphs[name]
 
-def setTitle(self, title:str) -> None:
+def setTitle(self:Figure, title:str) -> None:
     """Set the main title of the figure.
 
     Parameters
@@ -58,7 +66,7 @@ def setTitle(self, title:str) -> None:
     """
     self.fig.suptitle(title+"\n", fontsize=self.template["fig_title_size"])
 
-def figSave(self, name:str) -> None:
+def figSave(self:Figure, name:str) -> None:
     """Save the figure to pdf format.
 
     Parameters
@@ -69,8 +77,9 @@ def figSave(self, name:str) -> None:
     """
     self.fig.tight_layout()
     self.fig.savefig(name+".pdf", bbox_inches='tight')
+    print(f'Figure saved as "{name+".pdf"}"')
 
-def figShow(self):
+def figShow(self:Figure):
     """Don't remember
     
     """
