@@ -63,8 +63,7 @@ class Figure:
         self.templates:dict[str, dict]
         self.templates = dict()
         self.templates["default"] = self.__template_default()
-
-
+        
     def addCustomTemplate(self, 
                           name:str, 
                           fig_size_x:int = 11, 
@@ -236,6 +235,7 @@ class Graph:
         self.__y_axis_params = dict()
 
         self.__is_legend_plotted = False
+        self.__mappable = None
         
 
     def setGrid(self):
@@ -249,8 +249,8 @@ class Graph:
         Parameters
         ----------
 
-        *   ``x_min``: the lower bound of the axis.
-        *   ``x_max``: upper bound of the axis.
+        *   ``x_min``: (OPTIONNAL) the lower bound of the axis.
+        *   ``x_max``: (OPTIONNAL) upper bound of the axis.
         *   ``label``: (OPTIONNAL) name of the axis (don't forget the units !).
         *   ``color``: (OPTIONNAL) color of the label.
         *   ``loc``: (OPTIONNAL) location of the label ('left', 'center', 'right').
@@ -262,7 +262,8 @@ class Graph:
         self.plot.tick_params(axis='x', which='minor', width=self.fig.template["tick_width_minor"], length=self.fig.template["tick_length_minor"])
         if(color[1]):
             self.plot.tick_params(axis='x', which='major', colors=color[0])
-        self.plot.set_xlim([x_min, x_max])
+        if(not(x_min == None and x_max == None)):
+            self.plot.set_xlim([x_min, x_max])
 
     def setAxisXAngularScale(self, span:float = 1.0):
         """Change the x axis to a multiple of pi axis.
@@ -298,14 +299,14 @@ class Graph:
 
         plt.setp(self.plot.xaxis.get_majorticklabels(), rotation=-30, ha="left", rotation_mode="anchor") 
 
-    def setAxisY(self, y_min:float, y_max:float, label:str = None, color:list = ['black', False], loc:str='center'):
+    def setAxisY(self, y_min:float=None, y_max:float=None, label:str = None, color:list = ['black', False], loc:str='center'):
         """Set the labels and the interval of the Y axis of the current graph.
 
         Parameters
         ----------
 
-        *   ``x_min``: the lower bound of the axis.
-        *   ``x_max``: upper bound of the axis.
+        *   ``x_min``: (OPTIONNAL) the lower bound of the axis.
+        *   ``x_max``: (OPTIONNAL) upper bound of the axis.
         *   ``label``: (OPTIONNAL) name of the axis (don't forget the units !).
         *   ``color``: (OPTIONNAL) color of the label.
         *   ``loc``: (OPTIONNAL) location of the label ('top', 'center', 'bottom').
@@ -317,7 +318,8 @@ class Graph:
             self.plot.tick_params(axis='y', which='major', colors=color[0])
         self.plot.tick_params(axis='y', which='major', labelsize=self.fig.template["tick_size"], width=self.fig.template["tick_width_major"], length=self.fig.template["tick_length_major"])
         self.plot.tick_params(axis='y', which='minor', width=self.fig.template["tick_width_minor"], length=self.fig.template["tick_length_minor"])
-        self.plot.set_ylim([y_min, y_max])
+        if(not(y_min == None and y_max == None)):
+            self.plot.set_ylim([y_min, y_max])
 
     def setAxisYAngularScale(self, span:float = 1.0):
         """Change the y axis to a multiple of pi axis.
@@ -519,8 +521,8 @@ class Graph:
         """
 
         plot_axis = self.__axis_formatter(axis)
-        if (not(len(xs) == len(ys) and len(texts) == len(xs))):
-            raise TypeError("xs and ys must have the same dimensions !")
+        if (not(x.shape == y.shape)):
+            raise TypeError("x "+x.shape+" and y "+y.shape+" must have the same dimensions !")
 
         for (x, y, text) in zip(xs, ys, texts):
             plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
@@ -543,29 +545,110 @@ class Graph:
 
         plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
 
-    def plotPcolor(self, axis:str="main", C=None, vmin=None, vmax=None, cmap:str='inferno'):
-        """Plot a graph where the colour indicates the value monitered on a 2D grid. Not easy to describe okay ??
+    def plotPcolor(self, axis:str="main", grid_span:float=1.0, C=None, vmin=None, vmax=None, cmap:str='inferno', shading:str='flat'):
+        """Plot a graph where the colour indicates the greatness of the value on a 2D grid. Not easy to describe okay ??
 
         Parameters
         ----------
 
         *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
+        *   ``grid_span``:  (OPTIONNAL, DEF=1) span between each element on the x and y axis (multiply each tick by this value). 
+            Default: 1, 2, 3, 4, ...
         *   ``C``: Array to plot. Must be 2D where the first dimension corresponds to the x axis and the second one to the y axis.
         The value at ij is plotted at the coordinates (x;y).
         *   ``vmin``: (OPTIONNAL) minimum value to take into account in the color scale.
         *   ``vmax``: (OPTIONNAL) maximum value to take into account in the color scale.
         *   ``cmap``: (OPTIONNAL) colors of the colorbar
+        *   ``shading``: (OPTIONNAL, DEF='flat')\n
+            'flat' => boxes \n
+            'nearest' => boxes whose ticks are centered at the center of the boxes \n
+            'gouraud' => smooth transition between colors.
 
         """
 
         if(not(C.ndim == 2)):
             raise TypeError("C must a 2D array !") 
+        
+        if(vmin == None):
+            vmin = C.min()
+        if(vmax == None):
+            vmax = C.max()
 
+        if shading == "flat":
+            x_vec = np.arange(0, len(C[0])+1, 1, dtype=float)
+            y_vec = np.arange(0, len(C)+1, 1, dtype=float)
+        else:
+            x_vec = np.arange(0, len(C[0]), 1, dtype=float)
+            y_vec = np.arange(0, len(C), 1, dtype=float)
+        X, Y = np.meshgrid(x_vec, y_vec)
+
+        X = X*grid_span
+        Y = Y*grid_span
+        
         plot_axis = self.__axis_formatter(axis)
-        mappable = plot_axis.pcolormesh(C, cmap=cmap, vmin=vmin, vmax=vmax)
-        cbar = plt.colorbar(mappable=mappable)
-        cbar.set_label('Amplitude du signal', rotation=270, labelpad=30, size=self.fig.template["label_size"])
+        self.__mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin, vmax=vmax, shading=shading)
+    
+    def plotCbar(self, label=None, orientation:str="vertical"):
+        """
+        
+        Parameters
+        ----------
+
+        *   ``label``:
+        *   ``orientation``:
+        """
+
+        if orientation == "horizontal":
+            cbar = self.fig.fig.colorbar(mappable=self.__mappable, orientation="horizontal")
+            cbar.set_label(label, rotation=0, size=self.fig.template["label_size"])
+        else:
+            cbar = self.fig.fig.colorbar(mappable=self.__mappable, orientation="vertical")
+            cbar.set_label(label, rotation=270, labelpad=30, size=self.fig.template["label_size"])
         cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
 
+    def setScale(self, axis:str="main", scaling:str="same"):
+        """Set the scale of the x and y axes.
+
+        Parameters
+        ----------
+
+        *   ``axis``: (DEF="main") axis on which to plot ("main" or "sec").
+        *   ``scaling``: (DEF="same"): "same": same scaling for x and y.
         
+        """
+
+        plot_axis = self.__axis_formatter(axis)
+        if(scaling == "same"):
+            plot_axis.set_aspect('equal', 'box')
+        else:
+            raise ValueError('"'+scaling+'" is is not a valid scaling !')
+        
+    def plotVectorField(self, axis:str="main", x=None, y=None, grid_span:float=1.0, color:str="black"):
+        """Plot a vector field, perfect for fluid streams.
+
+        Parameters
+        ----------
+
+        *   ``axis``: (DEF="main") axis on which to plot ("main" or "sec").
+        *   ``x``: values of the x components of the vectors.
+        *   ``y``: values of the y components of the vectors.
+        *   ``grid_span``: (OPTIONNAL, DEF=1) span between each element on the x and y axis (multiply each tick by this value). 
+        
+        """
+
+        self.__X_Y_formatter(x, y)
+
+        x_vec = np.arange(0, len(x[0]), 1, dtype=float)
+        y_vec = np.arange(0, len(x), 1, dtype=float)
+        X, Y = np.meshgrid(x_vec, y_vec)
+
+        X = X*grid_span
+        Y = Y*grid_span
+
+        plot_axis = self.__axis_formatter(axis)
+        plot_axis.streamplot(X, Y, x, y, color=color, linewidth=1, density=1)
+        
+if __name__ == "__main__":
+    pass
+
 
