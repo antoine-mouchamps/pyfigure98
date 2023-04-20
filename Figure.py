@@ -521,8 +521,8 @@ class Graph:
         """
 
         plot_axis = self.__axis_formatter(axis)
-        if (not(x.shape == y.shape)):
-            raise TypeError("x "+x.shape+" and y "+y.shape+" must have the same dimensions !")
+        if (not(len(xs) == len(ys))):
+            raise TypeError("x("+len(xs)+") and y("+len(ys)+") must have the same dimensions !")
 
         for (x, y, text) in zip(xs, ys, texts):
             plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
