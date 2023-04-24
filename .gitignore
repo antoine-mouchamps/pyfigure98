@@ -1,3 +1,4 @@
 *.pdf!Examples\*.pdf
 __pycache__
 *test*
+*.zip
