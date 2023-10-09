@@ -1,4 +1,4 @@
-from Figure import Figure
+from pyfigure98 import Figure
 import numpy as np
 
 if __name__ == "__main__":
