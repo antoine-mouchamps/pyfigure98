@@ -2,40 +2,53 @@ from .._place_holder import Graph_
 
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
 
-def __X_Y_formatter(self:Graph_, x, y):
+
+def __X_Y_formatter(self: Graph_, x, y):
     if (not(len(x) == len(y))):
         raise TypeError("x and y must have the same dimensions !")
-    
+
     if(len(self._x_axis_params) > 1):
         raise SyntaxError("the X axis cannot have more than one formatter !")
     if(len(self._y_axis_params) > 1):
         raise SyntaxError("the Y axis cannot have more than one formatter !")
-    
+
     if("angular" in self._x_axis_params):
-        x /=np.pi
-    
+        x /= np.pi
+
     if("angular" in self._y_axis_params):
-        y /=np.pi
+        y /= np.pi
 
     if("log" in self._x_axis_params and "log" in self._y_axis_params):
-        print("\n \t!!! WARNING: This case in not taken into account, not sure if it will work as intended \n")
+        warnings.warn("""\n \t!!! WARNING: This case in not taken into account,
+                      not sure if it will work as intended \n""",
+                      SyntaxWarning
+                      )
 
     return x, y
 
-def __axis_formatter(self:Graph_, axis)->plt.Axes:
-    if(not(axis == "main" or axis =="sec")):
+
+def __axis_formatter(self: Graph_, axis) -> plt.Axes:
+    if(not(axis == "main" or axis == "sec")):
         raise SyntaxError("The specified axis does not exist !")
-    
-    if self._is_legend_plotted == True:
-        print("WARNING: the legend is already plotted so anything plotted afterwards will not have its label shown.")
+
+    if self._is_legend_plotted is True:
+        warnings.warn("""WARNING: the legend is already plotted so anything
+                      plotted afterwards will not have its label shown.""",
+                      SyntaxWarning
+                      )
 
     plot_axis = self.plot
-    if(axis =="sec"):
+    if(axis == "sec"):
         plot_axis = self.secondYAxis
     return plot_axis
 
-def plotStandard(self:Graph_, axis:str="main", x:list=None, y:list=None, label:str=None, color='blue', linestyle='solid', linewidth=1):
+
+def plotStandard(self: Graph_, axis: str = "main", x: list = None,
+                 y: list = None, label: str = None, color='blue',
+                 linestyle='solid', linewidth=1
+                 ):
     """Plot datas with a standard "line" graph.
 
     Parameters
@@ -44,26 +57,27 @@ def plotStandard(self:Graph_, axis:str="main", x:list=None, y:list=None, label:s
     *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
     *   ``x``: list of the x values.
     *   ``y``: list of the y values.
-    *   ``label``: (OPTIONNAL) label of the plot, used in the legend (if needed).
+    *   ``label``: (OPTIONNAL) label of the plot, used in the legend
+                    (if needed).
     *   ``color``: (OPTIONNAL) color of the plot.
     *   ``linestyle``: (OPTIONNAL) style (solid, dashed, dotted, ...).
     *   ``linewidth``: (OPTIONNAL) width of the plot.
 
     Possibilities
     -------------
-        b : blue                        
-        g : green                      
-        r : red                         
-        c : cyan                          
-        m : magenta                    
-        y : yellow        
-        k : black         
-        w : white         
-        . : point                    
-        o : circle                    
-        x : x-mark                    
-        +: plus 
-        *: star                   
+        b : blue
+        g : green
+        r : red
+        c : cyan
+        m : magenta
+        y : yellow
+        k : black
+        w : white
+        . : point
+        o : circle
+        x : x-mark
+        +: plus
+        *: star
         s : square
         d : diamond
         ^ : triangle (up)
@@ -73,37 +87,52 @@ def plotStandard(self:Graph_, axis:str="main", x:list=None, y:list=None, label:s
         p : pentagram
         h : hexagram
         -: solid
-        -- : dashed  
+        -- : dashed
         : : dotted
         -. : dashdot
         (none) : no line
-                                                
+
     """
 
     x, y = __X_Y_formatter(self, x, y)
     plot_axis = __axis_formatter(self, axis)
 
-    if(label == None):
+    if(label is None):
         label = "_nolegend"
     plotted = False
-    if(plotted == False and ("log" in self._x_axis_params and "log" not in self._y_axis_params)):
-        print("heeeeeee")
-        line, = plot_axis.semilogx(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+    if(plotted is False
+       and "log" in self._x_axis_params
+       and "log" not in self._y_axis_params
+       ):
+        line, = plot_axis.semilogx(x, y, color=color, linestyle=linestyle,
+                                   linewidth=linewidth
+                                   )
         plotted = True
 
-    elif(plotted == False and ("log" in self._y_axis_params and "log" not in self._x_axis_params)):
-        line, = plot_axis.semilogy(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+    elif(plotted is False
+         and "log" in self._y_axis_params
+         and "log" not in self._x_axis_params
+         ):
+        line, = plot_axis.semilogy(x, y, color=color, linestyle=linestyle,
+                                   linewidth=linewidth
+                                   )
         plotted = True
 
-    if(plotted == False):
-        line, = plot_axis.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+    if(plotted is False):
+        line, = plot_axis.plot(x, y, color=color, linestyle=linestyle,
+                               linewidth=linewidth
+                               )
         plotted = True
-    
-    if(not (label == None)):
+
+    if(label is not None):
         self.plot_labels[0].append(line)
         self.plot_labels[1].append(label)
 
-def plotPointsWithText(self:Graph_, axis:str="main", xs:list=None, ys:list=None, texts:list=None, marker:str = 'o', markercolor:str = "green", color:str = "black"):
+
+def plotPointsWithText(self: Graph_, axis: str = "main", xs: list = None,
+                       ys: list = None, texts: list = None, marker: str = 'o',
+                       markercolor: str = "green", color: str = "black"
+                       ):
     """Plot a point with some text attached to it.
 
     Parameters
@@ -120,13 +149,26 @@ def plotPointsWithText(self:Graph_, axis:str="main", xs:list=None, ys:list=None,
 
     plot_axis = __axis_formatter(self, axis)
     if (not(len(xs) == len(ys))):
-        raise TypeError("x("+len(xs)+") and y("+len(ys)+") must have the same dimensions !")
+        raise TypeError("x(" + len(xs) + ") and y(" + len(ys) + """) must have
+                        the same dimensions !"""
+                        )
 
     for (x, y, text) in zip(xs, ys, texts):
-        plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
-        plot_axis.plot(x, y, marker=marker, markersize = self.fig.template["markersize"], color=markercolor, label='_nolegend_')
+        plot_axis.text(x, y, text,
+                       fontdict={
+                           'fontsize': self.fig.template["in_text_size"]
+                           },
+                       color=color
+                       )
+        plot_axis.plot(x, y, marker=marker,
+                       markersize=self.fig.template["markersize"],
+                       color=markercolor, label='_nolegend_'
+                       )
 
-def plotText(self:Graph_, axis:str="main", x=None, y=None, text:str=None, color:str="black"):
+
+def plotText(self: Graph_, axis: str = "main", x=None, y=None,
+             text: str = None, color: str = "black"
+             ):
     """Plot text on the graph.
 
     Parameters
@@ -141,35 +183,48 @@ def plotText(self:Graph_, axis:str="main", x=None, y=None, text:str=None, color:
 
     plot_axis = __axis_formatter(self, axis)
 
-    plot_axis.text(x, y, text, fontdict={'fontsize': self.fig.template["in_text_size"]}, color=color)
+    plot_axis.text(x, y, text,
+                   fontdict={'fontsize': self.fig.template["in_text_size"]},
+                   color=color
+                   )
 
-def plotPcolor(self:Graph_, axis:str="main", grid_span:float=1.0, C=None, vmin=None, vmax=None, cmap:str='inferno', shading:str='flat'):
-    """Plot a graph where the colour indicates the greatness of the value on a 2D grid. Not easy to describe okay ??
+
+def plotPcolor(self: Graph_, axis: str = "main", grid_span: float = 1.0,
+               C=None, vmin=None, vmax=None, cmap: str = 'inferno',
+               shading: str = 'flat'
+               ):
+    """Plot a graph where the colour indicates the greatness of the value on a
+        2D grid. Not easy to describe okay ??
 
     Parameters
     ----------
 
     *   ``axis``: (DEF=main) axis on which to plot ("main" or "sec").
-    *   ``grid_span``:  (OPTIONNAL, DEF=1) span between each element on the x and y axis (multiply each tick by this value). 
+    *   ``grid_span``:  (OPTIONNAL, DEF=1) span between each element on the x
+                        and y axis (multiply each tick by this value).
         Default: 1, 2, 3, 4, ...
-    *   ``C``: Array to plot. Must be 2D where the first dimension corresponds to the x axis and the second one to the y axis.
+    *   ``C``: Array to plot. Must be 2D where the first dimension corresponds
+                to the x axis and the second one to the y axis.
     The value at ij is plotted at the coordinates (x;y).
-    *   ``vmin``: (OPTIONNAL) minimum value to take into account in the color scale.
-    *   ``vmax``: (OPTIONNAL) maximum value to take into account in the color scale.
+    *   ``vmin``: (OPTIONNAL) minimum value to take into account in the color
+                    scale.
+    *   ``vmax``: (OPTIONNAL) maximum value to take into account in the color
+                    scale.
     *   ``cmap``: (OPTIONNAL) colors of the colorbar
     *   ``shading``: (OPTIONNAL, DEF='flat')\n
         'flat' => boxes \n
-        'nearest' => boxes whose ticks are centered at the center of the boxes \n
+        'nearest' => boxes whose ticks are centered at the center of
+                    the boxes \n
         'gouraud' => smooth transition between colors.
 
     """
 
     if(not(C.ndim == 2)):
-        raise TypeError("C must a 2D array !") 
-    
-    if(vmin == None):
+        raise TypeError("C must a 2D array !")
+
+    if(vmin is None):
         vmin = C.min()
-    if(vmax == None):
+    if(vmax is None):
         vmax = C.max()
 
     if shading == "flat":
@@ -182,13 +237,16 @@ def plotPcolor(self:Graph_, axis:str="main", grid_span:float=1.0, C=None, vmin=N
 
     X = X*grid_span
     Y = Y*grid_span
-    
-    plot_axis = __axis_formatter(self, axis)
-    self._mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin, vmax=vmax, shading=shading)
 
-def plotCbar(self:Graph_, label=None, orientation:str="vertical"):
+    plot_axis = __axis_formatter(self, axis)
+    self._mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin,
+                                          vmax=vmax, shading=shading
+                                          )
+
+
+def plotCbar(self: Graph_, label=None, orientation: str = "vertical"):
     """
-    
+
     Parameters
     ----------
 
@@ -197,14 +255,23 @@ def plotCbar(self:Graph_, label=None, orientation:str="vertical"):
     """
 
     if orientation == "horizontal":
-        cbar = self.fig.fig.colorbar(mappable=self._mappable, orientation="horizontal")
-        cbar.set_label(label, rotation=0, size=self.fig.template["label_size"])
+        cbar = self.fig.fig.colorbar(mappable=self._mappable,
+                                     orientation="horizontal"
+                                     )
+        cbar.set_label(label, rotation=0,
+                       size=self.fig.template["label_size"]
+                       )
     else:
-        cbar = self.fig.fig.colorbar(mappable=self._mappable, orientation="vertical")
-        cbar.set_label(label, rotation=270, labelpad=30, size=self.fig.template["label_size"])
+        cbar = self.fig.fig.colorbar(mappable=self._mappable,
+                                     orientation="vertical"
+                                     )
+        cbar.set_label(label, rotation=270, labelpad=30,
+                       size=self.fig.template["label_size"]
+                       )
     cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
 
-def setScale(self:Graph_, axis:str="main", scaling:str="same"):
+
+def setScale(self: Graph_, axis: str = "main", scaling: str = "same"):
     """Set the scale of the x and y axes.
 
     Parameters
@@ -212,7 +279,7 @@ def setScale(self:Graph_, axis:str="main", scaling:str="same"):
 
     *   ``axis``: (DEF="main") axis on which to plot ("main" or "sec").
     *   ``scaling``: (DEF="same"): "same": same scaling for x and y.
-    
+
     """
 
     plot_axis = __axis_formatter(self, axis)
@@ -220,8 +287,11 @@ def setScale(self:Graph_, axis:str="main", scaling:str="same"):
         plot_axis.set_aspect('equal', 'box')
     else:
         raise ValueError('"'+scaling+'" is is not a valid scaling !')
-    
-def plotVectorField(self:Graph_, axis:str="main", x=None, y=None, grid_span:float=1.0, color:str="black"):
+
+
+def plotVectorField(self: Graph_, axis: str = "main", x=None, y=None,
+                    grid_span: float = 1.0, color: str = "black"
+                    ):
     """Plot a vector field, perfect for fluid streams.
 
     Parameters
@@ -230,8 +300,9 @@ def plotVectorField(self:Graph_, axis:str="main", x=None, y=None, grid_span:floa
     *   ``axis``: (DEF="main") axis on which to plot ("main" or "sec").
     *   ``x``: values of the x components of the vectors.
     *   ``y``: values of the y components of the vectors.
-    *   ``grid_span``: (OPTIONNAL, DEF=1) span between each element on the x and y axis (multiply each tick by this value). 
-    
+    *   ``grid_span``: (OPTIONNAL, DEF=1) span between each element on the x
+                and y axis (multiply each tick by this value).
+
     """
 
     __X_Y_formatter(self, x, y)
