@@ -1,6 +1,7 @@
 from ._place_holder import Figure
 from .Graph import Graph
 import matplotlib.pyplot as plt
+# import warnings
 
 
 def addFigure(self: Figure,
@@ -34,7 +35,7 @@ def addFigure(self: Figure,
     y_size = self.template["fig_size_y"]*rows
     self.fig = plt.figure(figsize=(x_size, y_size))
 
-    print("New figure created")
+    # warnings.warn("New figure created")
 
 
 def addGraph(self: Figure,
@@ -71,7 +72,7 @@ def addGraph(self: Figure,
     new_graph = Graph(self, self.fig.add_subplot(row, col, index))
     self.graphs[name] = new_graph
 
-    print(f'Graph "{name}" created')
+    # warnings.warn(f'Graph "{name}" created')
     return self.graphs[name]
 
 
@@ -98,7 +99,7 @@ def figSave(self: Figure, name: str) -> None:
     """
     self.fig.tight_layout()
     self.fig.savefig(name+".pdf", bbox_inches='tight')
-    print(f'Figure saved as "{name+".pdf"}"')
+    # warnings.warn(f'Figure saved as "{name+".pdf"}"')
 
 
 def figShow(self: Figure):

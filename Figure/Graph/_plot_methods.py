@@ -2,6 +2,7 @@ from .._place_holder import Graph_
 
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
 
 
 def __X_Y_formatter(self: Graph_, x, y):
@@ -20,8 +21,10 @@ def __X_Y_formatter(self: Graph_, x, y):
         y /= np.pi
 
     if("log" in self._x_axis_params and "log" in self._y_axis_params):
-        print("""\n \t!!! WARNING: This case in not taken into account, not
-              sure if it will work as intended \n""")
+        warnings.warn("""\n \t!!! WARNING: This case in not taken into account,
+                      not sure if it will work as intended \n""",
+                      SyntaxWarning
+                      )
 
     return x, y
 
@@ -31,8 +34,10 @@ def __axis_formatter(self: Graph_, axis) -> plt.Axes:
         raise SyntaxError("The specified axis does not exist !")
 
     if self._is_legend_plotted is True:
-        print("""WARNING: the legend is already plotted so anything plotted
-              afterwards will not have its label shown.""")
+        warnings.warn("""WARNING: the legend is already plotted so anything
+                      plotted afterwards will not have its label shown.""",
+                      SyntaxWarning
+                      )
 
     plot_axis = self.plot
     if(axis == "sec"):
@@ -99,7 +104,6 @@ def plotStandard(self: Graph_, axis: str = "main", x: list = None,
        and "log" in self._x_axis_params
        and "log" not in self._y_axis_params
        ):
-        print("heeeeeee")
         line, = plot_axis.semilogx(x, y, color=color, linestyle=linestyle,
                                    linewidth=linewidth
                                    )
