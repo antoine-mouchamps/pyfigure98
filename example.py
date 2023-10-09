@@ -80,4 +80,4 @@ if __name__ == "__main__":
         color.setAxisX(0, 10, "test lol")
         color.setAxisY(0, 10)
 
-        new_fig.figSave("example")
+        new_fig.figSave("Examples/example")
