@@ -1,37 +1,48 @@
 from .._place_holder import Graph_
 
-def setGrid(self:Graph_):
+
+def setGrid(self: Graph_):
     """Add grid lines to the graph
     """
     self.plot.grid()
 
-def setTitle(self:Graph_, label:str):
+
+def setTitle(self: Graph_, label: str):
     """Set the title of the current graph.
 
     Parameters
     ----------
 
     *   ``label``: title of the graph
-    
-    """
-    self.plot.set_title(label, fontsize = self.fig.template["subplot_title_size"])
 
-def setLegend(self:Graph_, loc:str = "best"):
+    """
+    self.plot.set_title(label,
+                        fontsize=self.fig.template["subplot_title_size"]
+                        )
+
+
+def setLegend(self: Graph_, loc: str = "best"):
     """Set the legend of the current graph.
 
     Parameters
     ----------
 
-    *   ``loc``: (OPTIONNAL) location of the legend (best, lower/upper/# + left/right/center)
-    
+    *   ``loc``: (OPTIONNAL) location of the legend (best, lower/upper/# +
+        left/right/center)
+
     """
     self._is_legend_plotted = True
-    self.plot.legend(self.plot_labels[0], self.plot_labels[1], loc=loc, fontsize=self.fig.template["legend_size"])
+    self.plot.legend(self.plot_labels[0], self.plot_labels[1], loc=loc,
+                     fontsize=self.fig.template["legend_size"]
+                     )
 
-def setBorders(self:Graph_, config:str = None,left:bool = True, right:bool = True, top:bool = True, bottom:bool = True):
+
+def setBorders(self: Graph_, config: str = None, left: bool = True,
+               right: bool = True, top: bool = True, bottom: bool = True
+               ):
     """Set the 4 borders of the graph.
     Set ``config`` to "upper-right" to disable the right and upper border.
-    
+
     Parameters
     ----------
 

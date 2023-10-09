@@ -2,17 +2,27 @@ from ._place_holder import Figure
 from .Graph import Graph
 import matplotlib.pyplot as plt
 
-def addFigure(self:Figure, template:str = "default", rows:int = 1, cols:int = 1) -> None:
+
+def addFigure(self: Figure,
+              template: str = "default",
+              rows: int = 1,
+              cols: int = 1
+              ) -> None:
     """Create a new figure.
 
     Parameters
     ----------
 
-    *   ``template``: Set the template used by the figure, i.e. all the font sizes used by the different components.
-    *   ``rows``: Set the horizontal size of the figure by multiplying the default size of a plot (found in the template used) by this
-    value. ``rows`` should thus be equal to the maximum amount of plots that will be placed horizontally.
-    *   ``cols``: Set the vertical size of the figure by multiplying the default size of a plot (found in the template used) by this
-    value. ``col`` should thus be equal to the maximum amount of plots that will be placed vertically.
+    *   ``template``: Set the template used by the figure, i.e. all the font
+        sizes used by the different components.
+    *   ``rows``: Set the horizontal size of the figure by multiplying the
+        default size of a plot (found in the template used) by this value.
+        ``rows`` should thus be equal to the maximum amount of plots that will
+        be placed horizontally.
+    *   ``cols``: Set the vertical size of the figure by multiplying the
+        default size of a plot (found in the template used) by this value.
+        ``col`` should thus be equal to the maximum amount of plots that will
+        be placed vertically.
     """
 
     if(template in self.templates):
@@ -22,12 +32,17 @@ def addFigure(self:Figure, template:str = "default", rows:int = 1, cols:int = 1)
 
     x_size = self.template["fig_size_x"]*cols
     y_size = self.template["fig_size_y"]*rows
-    self.fig = plt.figure(figsize = (x_size, y_size))
+    self.fig = plt.figure(figsize=(x_size, y_size))
 
     print("New figure created")
 
-def addGraph(self:Figure, name:str, row:int = 1, col:int = 1, index:int = 1)->Graph:
-    """Add a graph to the current figure. 
+
+def addGraph(self: Figure,
+             name: str,
+             row: int = 1,
+             col: int = 1,
+             index: int = 1) -> Graph:
+    """Add a graph to the current figure.
 
     Parameters:
     --------
@@ -39,12 +54,16 @@ def addGraph(self:Figure, name:str, row:int = 1, col:int = 1, index:int = 1)->Gr
 
     Details:
     --------
-    Explanation: specify the location and size of the graph on the figure. The row and col parameters determine the size of the grid,
-    like if the figure was a table. Then, the index parameter specify in which block of the table the added graph has to go
-    starting from the upper left corner and ending at the lower right. \n
-    /!\ the table system doesn't actually exist, it is only there to give a position and a size to the added graph. It is thus possible
-    to use different size for different graphs. For example when using a 2x2 grid, plotting two graphs with (2,2,1) and (2,2,2) with a
-    third one (2,1,2) will gives the following structure: \n
+    Explanation: specify the location and size of the graph on the figure.
+    The row and col parameters determine the size of the grid, like if the
+    figure was a table. Then, the index parameter specify in which block of
+    the table the added graph has to go starting from the upper left corner
+    and ending at the lower right. \n
+    /!\\ the table system doesn't actually exist, it is only there to give a
+    position and a size to the added graph. It is thus possible to use
+    different size for different graphs. For example when using a 2x2 grid,
+    plotting two graphs with (2,2,1) and (2,2,2) with a third one (2,1,2) will
+    gives the following structure: \n
     _______
     |__|__|
     |_____|
@@ -55,33 +74,36 @@ def addGraph(self:Figure, name:str, row:int = 1, col:int = 1, index:int = 1)->Gr
     print(f'Graph "{name}" created')
     return self.graphs[name]
 
-def setTitle(self:Figure, title:str) -> None:
+
+def setTitle(self: Figure, title: str) -> None:
     """Set the main title of the figure.
 
     Parameters
     ----------
-    
+
     *   ``title``: well, obvious
-    
+
     """
     self.fig.suptitle(title+"\n", fontsize=self.template["fig_title_size"])
 
-def figSave(self:Figure, name:str) -> None:
+
+def figSave(self: Figure, name: str) -> None:
     """Save the figure to pdf format.
 
     Parameters
     ----------
 
     *   ``name``: figure saved as "name.pdf"
-    
+
     """
     self.fig.tight_layout()
     self.fig.savefig(name+".pdf", bbox_inches='tight')
     print(f'Figure saved as "{name+".pdf"}"')
 
-def figShow(self:Figure):
+
+def figShow(self: Figure):
     """Don't remember
-    
+
     """
     self.fig.tight_layout()
     plt.show()
