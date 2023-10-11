@@ -1,1 +1,0 @@
-- Mettre les templates dans un dossier à part, et on importe un .txt avec les valeurs.
