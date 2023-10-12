@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: pyfigure98
+Version: 0.0.2
+Summary: Package to make plots easily.
+Author-email: Antoine Mouchamps <antoine.mouchamps@gmail.com>
+Project-URL: Homepage, https://github.com/antoine-mouchamps/pyfigure98
+Project-URL: Bug Tracker, https://github.com/antoine-mouchamps/pyfigure98/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Python-graphs
+
+This module is designed to make the process of creating python graphs using matplotlib easier. 
+I was really bored of copy/pasting code of projects and of googling "how to change this very specific thing", so I made it so that I will never do that again !

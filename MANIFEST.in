@@ -1,0 +1,3 @@
+graft src/pyfigure98/Figure/Templates
+graft tests
+global-exclude *.py[cod]
