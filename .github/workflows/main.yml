@@ -31,6 +31,7 @@ jobs:
         with:
           configurationJson: |
             {
+              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
               "categories": [
                 {
                   "title": "## 🚀 Features",
@@ -53,9 +54,8 @@ jobs:
                   "title": "## 👍 Enhancements",
                   "labels": ["enhancements"]
                 }
-              ],
+              ]
             }
-      
       - name: Create Release
         uses: svenstaro/upload-release-action@v2
         with:
