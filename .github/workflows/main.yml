@@ -28,7 +28,34 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v4
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+        with:
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
+              "categories": [
+                {
+                  "title": "## 🚀 Features",
+                  "labels": ["feature"]
+                },
+                {
+                  "title": "## 🐛 Fixes",
+                  "labels": ["fix"]
+                },
+                {
+                  "key": "tests",
+                  "title": "## 🧪 Tests",
+                  "labels": ["test"]
+                },
+                {
+                  "title": "## 📖 Documentations",
+                  "labels": ["documentation"]
+                },
+                {
+                  "title": "## 👍 Enhancements",
+                  "labels": ["enhancements"]
+                }
+              ]
+            }
       - name: Create Release
         uses: svenstaro/upload-release-action@v2
         with:

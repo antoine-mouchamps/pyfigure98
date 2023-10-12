@@ -1,6 +1,12 @@
 # Pyfigure98
 ## _A python package to create plots and figures easily_
 
+![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/antoine-mouchamps/pyfigure98)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/antoine-mouchamps/pyfigure98)
+![GitHub issues](https://img.shields.io/github/issues/antoine-mouchamps/pyfigure98)
+
+![PyPI - Version](https://img.shields.io/pypi/v/pyfigure98)
+![PyPI - License](https://img.shields.io/pypi/l/pyfigure98)
 
 If you have ever tried to make figures in python, you may have faced the same issues that annoyed me: a lot of copy/pasting between projects, countless hours spent on the internet searching for _how to change the size of this or that thing again ?_ and always searching for specific things like axes formated specifficaly for angles, logarithms, times, ...
 
@@ -23,6 +29,12 @@ This project is based on `matplotlib` and contains many methods to facilitate th
 # Documentation
 
 ## Usage
+
+### Installation
+To install this package using [pip](https://pip.pypa.io/en/stable/installation/), simply run
+```sh
+pip install pyfigure98
+```
 In order to use this package, create a new `Figure` object, and add a new figure to it:
 ```py
     from pyfigure98 import Figure
@@ -60,6 +72,7 @@ Finally, save you figure:
 myNewFigure.figSave('myfig')
 ```
 After all these steps, you should obtain this:
+
 <img src="https://github.com/antoine-mouchamps/pyfigure98/assets/94292445/daba562f-6ae2-40fb-b5ae-e6a3509d18a7" width="500">
 
 > This example is, of course, trivial.
@@ -74,3 +87,7 @@ Of course, there are many more methods available !
 # Examples
 
 ---
+
+# 
+
+
