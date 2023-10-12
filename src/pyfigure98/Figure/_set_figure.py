@@ -65,8 +65,8 @@ def addGraph(self: Figure,
     different size for different graphs. For example when using a 2x2 grid,
     plotting two graphs with (2,2,1) and (2,2,2) with a third one (2,1,2) will
     gives the following structure: \n
-    _______
-    |__|__|
+    _______\n
+    |__|__|\n
     |_____|
     """
     new_graph = Graph(self, self.fig.add_subplot(row, col, index))

@@ -16,7 +16,7 @@ if __name__ == "__main__":
         time.setAxisX(0, 1000, r"$\mathrm{Temps\, [s]}$")
         time.setAxisXTimeScale()
         time.setAxisY(0, 1, r"$\mathrm{\sin(t)}$")
-        time.setTitle("Evolution d'un sinus en fct du temps")
+        time.setTitle("Exemple d'un axe des x en hh:mm:ss")
         time.setLegend("upper right")
         time.setBorders("upper-right")
 
@@ -81,3 +81,20 @@ if __name__ == "__main__":
         color.setAxisY(0, 10)
 
         new_fig.figSave("Examples/example")
+    if(test == "2"):
+        myNewFigure = Figure()
+        myNewFigure.addFigure(template="default", rows=1, cols=1)
+        
+        graphOfMyNewFigure = myNewFigure.addGraph('myGraph')
+        graphOfMyNewFigure.setAxisX(x_min=-10, x_max=10, label="x")
+        graphOfMyNewFigure.setAxisY(y_min=-5, y_max=10, label="f(x)")
+        x = np.arange(-10, 10, 0.2)
+        y = (0.3*x)**3
+        graphOfMyNewFigure.plotStandard(x=x, y=y,
+                                        label="example with f(x)=(0.4*x)^3",
+                                        color="red")
+        myNewFigure.setTitle("My figure")
+        graphOfMyNewFigure.setTitle("my graph")
+        graphOfMyNewFigure.setLegend()
+        myNewFigure.figSave('Examples/README_example')
+
