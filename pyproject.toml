@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyfigure98"
+version = "v1.0.0"
+authors = [
+  { name="Antoine Mouchamps", email="antoine.mouchamps@gmail.com" },
+]
+description = "Package to make plots easily."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/antoine-mouchamps/pyfigure98"
+"Bug Tracker" = "https://github.com/antoine-mouchamps/pyfigure98/issues"

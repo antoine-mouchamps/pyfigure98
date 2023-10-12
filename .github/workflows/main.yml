@@ -1,35 +1,86 @@
-name: Publish
+name: Publish Python 🐍 distribution 📦 to PyPI and add archive to release
 
 on:
-    push:
-        tags:
-            - 'v*.*.*'
+  push:
+    tags:
+      - 'v*.*.*'
+
 jobs:
-    release:
-        name: Create new release
-        runs-on: ubuntu-latest
+  github-release:
+    name: >-
+      Update the release with a 📦 .zip containing a 🐍 package usable by itself.
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v3
-            - name: Move README & compress the package
-              run: |
-                  cp README.md pyfigure98/README.md 
-                  cd pyfigure98 && zip -r ../pyfigure98.zip .
-                  cd ..
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move some files & compress the package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            cp README.md src/pyfigure98/README.md 
+            cp LICENSE src/pyfigure98/LICENSE
+            cp pyproject.toml src/pyfigure98/pyproject.toml
+            cd src/pyfigure98 && zip -r ../../pyfigure98.zip .
+            cd ../..
 
-            - name: Build Changelog
-              id: github_release
-              uses: mikepenz/release-changelog-builder-action@v4
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            
-            - name: Create Release
-              uses: svenstaro/upload-release-action@v2
-              with:
-                  repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: pyfigure98.zip
-                  asset_name: pyfigure98-$tag.zip
-                  release_name: pyfigure98-${{ github.ref_name }}"
-                  tag: ${{ github.ref }}
-                  overwrite: true
-                  body: ${{steps.github_release.outputs.changelog}}
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v4
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            file: pyfigure98.zip
+            asset_name: pyfigure98-$tag.zip
+            release_name: pyfigure98-${{ github.ref_name }}"
+            tag: ${{ github.ref }}
+            overwrite: true
+            body: ${{steps.github_release.outputs.changelog}}
+  
+  build:
+    name: Build distribution 📦
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+
+  publish-to-pypi:
+    name: >-
+      Publish Python 🐍 distribution 📦 to PyPI
+    needs:
+    - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pyfigure98
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
