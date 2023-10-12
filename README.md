@@ -35,6 +35,9 @@ To install this package using [pip](https://pip.pypa.io/en/stable/installation/)
 ```sh
 pip install pyfigure98
 ```
+
+### Basic example
+
 In order to use this package, create a new `Figure` object, and add a new figure to it:
 ```py
     from pyfigure98 import Figure
