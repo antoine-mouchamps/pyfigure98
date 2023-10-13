@@ -30,6 +30,7 @@ def setAxisX(self: Graph_, x_min: float = None, x_max: float = None,
                           length=self.fig.template["tick_length_major"]
                           )
     self.plot.tick_params(axis='x', which='minor',
+                          labelsize=self.fig.template["tick_size"],
                           width=self.fig.template["tick_width_minor"],
                           length=self.fig.template["tick_length_minor"]
                           )
@@ -112,6 +113,7 @@ def setAxisY(self: Graph_,
                           length=self.fig.template["tick_length_major"]
                           )
     self.plot.tick_params(axis='y', which='minor',
+                          labelsize=self.fig.template["tick_size"],
                           width=self.fig.template["tick_width_minor"],
                           length=self.fig.template["tick_length_minor"]
                           )
