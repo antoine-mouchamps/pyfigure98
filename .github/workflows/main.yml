@@ -38,8 +38,8 @@ jobs:
                   "labels": ["feature"]
                 },
                 {
-                  "title": "## 🐛 Fixes",
-                  "labels": ["fix"]
+                  "title": "## 🐞 Fixes",
+                  "labels": ["fix", "bug"]
                 },
                 {
                   "key": "tests",
@@ -52,7 +52,7 @@ jobs:
                 },
                 {
                   "title": "## 👍 Enhancements",
-                  "labels": ["enhancements"]
+                  "labels": ["enhancement"]
                 }
               ]
             }
