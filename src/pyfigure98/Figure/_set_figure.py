@@ -22,7 +22,7 @@ def addFigure(self: Figure,
         be placed horizontally.
     *   ``cols``: Set the vertical size of the figure by multiplying the
         default size of a plot (found in the template used) by this value.
-        ``col`` should thus be equal to the maximum amount of plots that will
+        ``cols`` should thus be equal to the maximum amount of plots that will
         be placed vertically.
     """
 
