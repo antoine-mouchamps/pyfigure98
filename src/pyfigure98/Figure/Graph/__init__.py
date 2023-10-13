@@ -70,3 +70,4 @@ class Graph:
     from ._plot_methods import plotStandard
     from ._plot_methods import plotCbar, plotPcolor, plotVectorField
     from ._plot_methods import plotText, plotPointsWithText
+    from ._plot_methods import setScale, plotVectorField
