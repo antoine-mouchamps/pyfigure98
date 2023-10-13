@@ -6,6 +6,10 @@ import sys
 
 
 def addCustomTemplate(self: Figure, file_path:str) -> dict:
+    """
+    
+    """
+    
     template = dict()
 
     # Get the path to the file that called addCustomTemplate()
@@ -18,7 +22,14 @@ def addCustomTemplate(self: Figure, file_path:str) -> dict:
     with open(
         callerDirectory + "\\" + file_path + ".json"
     ) as f:
+            template:dict
             template = json.load(f)
+    
+    defaultTemplate = self.templates['default']
+    
+    for key, value in defaultTemplate.items():
+        if(key not in template.keys()):
+            template[key] = value
 
     self.templates[file_path] = template
 
