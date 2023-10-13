@@ -10,21 +10,23 @@ def getTemplate(file_path) -> dict:
         os.path.dirname(__file__) + "/Templates/" + file_path + ".txt"
     ) as f:
 
-        for line in f:
-            line = line.replace(" ", "").strip()
-            name, equal, size = line.partition("=")
-            template[name] = float(size)
+def getTemplate(file_path:str) -> dict:
+    template = dict()
+    with open(
+        os.path.dirname(__file__) + "/Templates/" + file_path + ".json"
+    ) as f:
+        template = json.load(f)
 
     return template
 
 
 def getAllTemplates() -> dict:
     all_files = os.listdir(os.path.dirname(__file__) + "/Templates/")
-    txt_files = filter(lambda x: x[-4:] == '.txt', all_files)
+    json_files = filter(lambda x: x[-5:] == '.json', all_files)
     try:
         template_list = dict()
-        for file in txt_files:
-            file = file[0:-4]
+        for file in json_files:
+            file = file[0:-5]
             new_template = getTemplate(file)
             template_list[file] = new_template
     except ImportError:

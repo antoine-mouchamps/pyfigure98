@@ -1,0 +1,15 @@
+{
+    "fig_size_x": 11,
+    "fig_size_y": 8,
+    "label_size": 25,
+    "tick_size": 20,
+    "legend_size": 20,
+    "in_text_size": 20,
+    "subplot_title_size": 30,
+    "fig_title_size": 35,
+    "markersize": 10,
+    "tick_width_major": 2.25,
+    "tick_length_major": 5,
+    "tick_width_minor": 1.75,
+    "tick_length_minor": 3   
+}
