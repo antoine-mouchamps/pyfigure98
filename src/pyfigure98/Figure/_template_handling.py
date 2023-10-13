@@ -1,30 +1,55 @@
 from ._place_holder import Figure
 
-import os.path
 import os
+import json
+import sys
 
 
-def getTemplate(file_path) -> dict:
+def addCustomTemplate(self: Figure, file_path:str) -> dict:
+    """
+    
+    """
+    
+    template = dict()
+
+    # Get the path to the file that called addCustomTemplate()
+    namespace = sys._getframe(1).f_globals # caller's globals
+    callerPath = namespace['__file__']
+
+    # Get the directory of the file that called addCustomTemplate()
+    callerDirectory = "\\".join(callerPath.split("\\")[:-1]) 
+
+    with open(
+        callerDirectory + "\\" + file_path + ".json"
+    ) as f:
+            template:dict
+            template = json.load(f)
+    
+    defaultTemplate = self.templates['default']
+    
+    for key, value in defaultTemplate.items():
+        if(key not in template.keys()):
+            template[key] = value
+
+    self.templates[file_path] = template
+
+def getTemplate(file_path:str) -> dict:
     template = dict()
     with open(
-        os.path.dirname(__file__) + "/Templates/" + file_path + ".txt"
+        os.path.dirname(__file__) + "/Templates/" + file_path + ".json"
     ) as f:
-
-        for line in f:
-            line = line.replace(" ", "").strip()
-            name, equal, size = line.partition("=")
-            template[name] = float(size)
+        template = json.load(f)
 
     return template
 
 
 def getAllTemplates() -> dict:
     all_files = os.listdir(os.path.dirname(__file__) + "/Templates/")
-    txt_files = filter(lambda x: x[-4:] == '.txt', all_files)
+    json_files = filter(lambda x: x[-5:] == '.json', all_files)
     try:
         template_list = dict()
-        for file in txt_files:
-            file = file[0:-4]
+        for file in json_files:
+            file = file[0:-5]
             new_template = getTemplate(file)
             template_list[file] = new_template
     except ImportError:
