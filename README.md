@@ -28,15 +28,14 @@ This project is based on `matplotlib` and contains many methods to facilitate th
 
 # Documentation
 
-## Usage
+## Installation
 
-### Installation
 To install this package using [pip](https://pip.pypa.io/en/stable/installation/), simply run
 ```sh
 pip install pyfigure98
 ```
 
-### Basic example
+## Usage
 
 In order to use this package, create a new `Figure` object, and add a new figure to it:
 ```py
