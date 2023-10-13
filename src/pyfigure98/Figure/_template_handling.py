@@ -1,14 +1,26 @@
 from ._place_holder import Figure
 
-import os.path
 import os
+import json
+import sys
 
 
-def getTemplate(file_path) -> dict:
+def addCustomTemplate(self: Figure, file_path:str) -> dict:
     template = dict()
+
+    # Get the path to the file that called addCustomTemplate()
+    namespace = sys._getframe(1).f_globals # caller's globals
+    callerPath = namespace['__file__']
+
+    # Get the directory of the file that called addCustomTemplate()
+    callerDirectory = "\\".join(callerPath.split("\\")[:-1]) 
+
     with open(
-        os.path.dirname(__file__) + "/Templates/" + file_path + ".txt"
+        callerDirectory + "\\" + file_path + ".json"
     ) as f:
+            template = json.load(f)
+
+    self.templates[file_path] = template
 
 def getTemplate(file_path:str) -> dict:
     template = dict()
