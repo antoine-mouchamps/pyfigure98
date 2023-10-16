@@ -21,7 +21,7 @@ This project is based on `matplotlib` and contains many methods to facilitate th
 - Hability to have more than one _y-axis_.
 - Hability to format the _x-axis_ to measure time, angles and logarithmic scales.
 - Hability to format de _y-axis_ to measure angles and logarithmic scales.
-- Automated and unified font sizes, defined in [templates](https://github.com/antoine-mouchamps/pyfigure98/tree/dev#templates).
+- Automated and unified font sizes, defined in [templates](https://github.com/antoine-mouchamps/pyfigure98#templates).
 - And many more !
 
 ---
@@ -46,7 +46,7 @@ In order to use this package, create a new `Figure` object, and add a new figure
     myNewFigure.addFigure(template="default", rows=1, cols=1)
 ```
 
-> For more informations on how to use the `template` variable and how to modify templates, see [section](https://github.com/antoine-mouchamps/pyfigure98/tree/dev#templates).
+> For more informations on how to use the `template` variable and how to modify templates, see [section](https://github.com/antoine-mouchamps/pyfigure98#templates).
 
 Next, you can add a new graph to your newly-created figure:
 ```py
