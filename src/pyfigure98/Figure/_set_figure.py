@@ -1,10 +1,10 @@
-from ._place_holder import Figure
+from ._place_holder import Figure_
 from .Graph import Graph
 import matplotlib.pyplot as plt
 # import warnings
 
 
-def addFigure(self: Figure,
+def addFigure(self: Figure_,
               template: str = "default",
               rows: int = 1,
               cols: int = 1
@@ -38,7 +38,7 @@ def addFigure(self: Figure,
     # warnings.warn("New figure created")
 
 
-def addGraph(self: Figure,
+def addGraph(self: Figure_,
              name: str,
              row: int = 1,
              col: int = 1,
@@ -76,7 +76,7 @@ def addGraph(self: Figure,
     return self.graphs[name]
 
 
-def setTitle(self: Figure, title: str) -> None:
+def setTitle(self: Figure_, title: str) -> None:
     """Set the main title of the figure.
 
     Parameters
@@ -88,7 +88,7 @@ def setTitle(self: Figure, title: str) -> None:
     self.fig.suptitle(title+"\n", fontsize=self.template["fig_title_size"])
 
 
-def figSave(self: Figure, name: str) -> None:
+def figSave(self: Figure_, name: str) -> None:
     """Save the figure to pdf format.
 
     Parameters
@@ -102,7 +102,7 @@ def figSave(self: Figure, name: str) -> None:
     # warnings.warn(f'Figure saved as "{name+".pdf"}"')
 
 
-def figShow(self: Figure):
+def figShow(self: Figure_):
     """Don't remember
 
     """

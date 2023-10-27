@@ -1,13 +1,15 @@
 from .._place_holder import Graph_
+from typing import Literal, Union
 
 import datetime
 import matplotlib.ticker as tick
 import matplotlib.pyplot as plt
 
 
-def setAxisX(self: Graph_, x_min: float = None, x_max: float = None,
-             label: str = None, color: list = ['black', False],
-             loc: str = 'center'
+def setAxisX(self: Graph_, x_min: Union[int, float, None] = None,
+             x_max: Union[int, float, None] = None,
+             label: Union[str, None] = None, color: list = ['black', False],
+             loc: Literal['center', 'right', 'left']= 'center'
              ):
     """Set the labels and the interval of the X axis of the current graph.
 
@@ -37,7 +39,7 @@ def setAxisX(self: Graph_, x_min: float = None, x_max: float = None,
     if(color[1]):
         self.plot.tick_params(axis='x', which='major', colors=color[0])
     if(x_min is not None and x_max is not None):
-        self.plot.set_xlim([x_min, x_max])
+        self.plot.set_xlim(x_min, x_max)
 
 
 def setAxisXAngularScale(self: Graph_, span: float = 1.0):
@@ -81,11 +83,11 @@ def setAxisXTimeScale(self: Graph_):
 
 
 def setAxisY(self: Graph_,
-             y_min: float = None,
-             y_max: float = None,
-             label: str = None,
+             y_min: Union[int, float, None] = None,
+             y_max: Union[int, float, None] = None,
+             label: Union[str, None] = None,
              color: list = ['black', False],
-             loc: str = 'center'
+             loc: Literal['bottom', 'center', 'top'] = 'center'
              ):
     """Set the labels and the interval of the Y axis of the current graph.
 
@@ -118,7 +120,7 @@ def setAxisY(self: Graph_,
                           length=self.fig.template["tick_length_minor"]
                           )
     if(y_min is not None and y_max is not None):
-        self.plot.set_ylim([y_min, y_max])
+        self.plot.set_ylim(y_min, y_max)
 
 
 def setAxisYAngularScale(self: Graph_, span: float = 1.0):
@@ -140,9 +142,12 @@ def setAxisYLogScale(self: Graph_):
     self._y_axis_params["log"] = True
 
 
-def setAxisYSecondAxis(self: Graph_, y_min: int = None, y_max: int = None,
-                       label: str = None, color: list = ['black', False],
-                       loc: str = 'center'
+def setAxisYSecondAxis(self: Graph_,
+                       y_min: Union[int, float, None] = None,
+                       y_max: Union[int, float, None] = None,
+                       label: Union[str, None] = None,
+                       color: list = ['black', False],
+                       loc: Literal['bottom', 'center', 'top'] = 'center'
                        ):
     """Create and set the labels and the interval of the second Y axis of the
     current graph.
@@ -169,4 +174,5 @@ def setAxisYSecondAxis(self: Graph_, y_min: int = None, y_max: int = None,
     self.secondYAxis.tick_params(axis='y', which='major',
                                  labelsize=self.fig.template["tick_size"]
                                  )
-    self.secondYAxis.set_ylim([y_min, y_max])
+    if(y_min is not None and y_max is not None):
+        self.secondYAxis.set_ylim(y_min, y_max)

@@ -1,8 +1,10 @@
+from typing import Iterable, Literal
 from .._place_holder import Graph_
 
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
+from typing import Union
 
 
 def __X_Y_formatter(self: Graph_, x, y):
@@ -45,8 +47,11 @@ def __axis_formatter(self: Graph_, axis) -> plt.Axes:
     return plot_axis
 
 
-def plotStandard(self: Graph_, axis: str = "main", x: list = None,
-                 y: list = None, label: str = None, color='blue',
+def plotStandard(self: Graph_, axis: str = "main",
+                 x = None,
+                 y = None,
+                 label: Union[str, None] = None,
+                 color='blue',
                  linestyle='solid', linewidth=1
                  ):
     """Plot datas with a standard "line" graph.
@@ -129,8 +134,10 @@ def plotStandard(self: Graph_, axis: str = "main", x: list = None,
         self.plot_labels[1].append(label)
 
 
-def plotPointsWithText(self: Graph_, axis: str = "main", xs: list = None,
-                       ys: list = None, texts: list = None, marker: str = 'o',
+def plotPointsWithText(self: Graph_, axis: str = "main",
+                       xs = None,
+                       ys = None,
+                       texts = None, marker: str = 'o',
                        markercolor: str = "green", color: str = "black"
                        ):
     """Plot a point with some text attached to it.
@@ -151,23 +158,25 @@ def plotPointsWithText(self: Graph_, axis: str = "main", xs: list = None,
     if (not(len(xs) == len(ys))):
         raise TypeError("x(" + len(xs) + ") and y(" + len(ys) + """) must have
                         the same dimensions !"""
+
+    if(xs is not None and ys is not None and texts is not None):
+        for (x, y, text) in zip(xs, ys, texts):
+            plot_axis.text(x, y, text,
+                        fontdict={
+                            'fontsize': self.fig.template["in_text_size"]
+                            },
+                        color=color
+                        )
+            plot_axis.plot(x, y, marker=marker,
+                        markersize=self.fig.template["markersize"],
+                        color=markercolor, label='_nolegend_'
                         )
 
-    for (x, y, text) in zip(xs, ys, texts):
-        plot_axis.text(x, y, text,
-                       fontdict={
-                           'fontsize': self.fig.template["in_text_size"]
-                           },
-                       color=color
-                       )
-        plot_axis.plot(x, y, marker=marker,
-                       markersize=self.fig.template["markersize"],
-                       color=markercolor, label='_nolegend_'
-                       )
 
-
-def plotText(self: Graph_, axis: str = "main", x=None, y=None,
-             text: str = None, color: str = "black"
+def plotText(self: Graph_, axis: str = "main",
+             x = None,
+             y = None,
+             text = None, color: str = "black"
              ):
     """Plot text on the graph.
 
@@ -183,15 +192,19 @@ def plotText(self: Graph_, axis: str = "main", x=None, y=None,
 
     plot_axis = __axis_formatter(self, axis)
 
-    plot_axis.text(x, y, text,
-                   fontdict={'fontsize': self.fig.template["in_text_size"]},
-                   color=color
-                   )
+    if(text is None):
+        text = ''
+    
+    if(x is not None and y is not None):
+        plot_axis.text(x, y, text,
+                    fontdict={'fontsize': self.fig.template["in_text_size"]},
+                    color=color
+                    )
 
 
 def plotPcolor(self: Graph_, axis: str = "main", grid_span: float = 1.0,
                C=None, vmin=None, vmax=None, cmap: str = 'inferno',
-               shading: str = 'flat'
+               shading: Literal['flat', 'nearest', 'gouraud', 'auto'] = 'flat'
                ):
     """Plot a graph where the colour indicates the greatness of the value on a
         2D grid. Not easy to describe okay ??
@@ -219,32 +232,33 @@ def plotPcolor(self: Graph_, axis: str = "main", grid_span: float = 1.0,
 
     """
 
-    if(not(C.ndim == 2)):
-        raise TypeError("C must a 2D array !")
+    if(C is not None):
+        if(not(C.ndim == 2)):
+            raise TypeError("C must a 2D array !")
 
-    if(vmin is None):
-        vmin = C.min()
-    if(vmax is None):
-        vmax = C.max()
+        if(vmin is None):
+            vmin = C.min()
+        if(vmax is None):
+            vmax = C.max()
 
-    if shading == "flat":
-        x_vec = np.arange(0, len(C[0])+1, 1, dtype=float)
-        y_vec = np.arange(0, len(C)+1, 1, dtype=float)
-    else:
-        x_vec = np.arange(0, len(C[0]), 1, dtype=float)
-        y_vec = np.arange(0, len(C), 1, dtype=float)
-    X, Y = np.meshgrid(x_vec, y_vec)
+        if shading == "flat":
+            x_vec = np.arange(0, len(C[0])+1, 1, dtype=float)
+            y_vec = np.arange(0, len(C)+1, 1, dtype=float)
+        else:
+            x_vec = np.arange(0, len(C[0]), 1, dtype=float)
+            y_vec = np.arange(0, len(C), 1, dtype=float)
+        X, Y = np.meshgrid(x_vec, y_vec)
 
-    X = X*grid_span
-    Y = Y*grid_span
+        X = X*grid_span
+        Y = Y*grid_span
 
-    plot_axis = __axis_formatter(self, axis)
-    self._mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin,
-                                          vmax=vmax, shading=shading
-                                          )
+        plot_axis = __axis_formatter(self, axis)
+        self._mappable = plot_axis.pcolormesh(X, Y, C, cmap=cmap, vmin=vmin,
+                                            vmax=vmax, shading=shading
+                                            )
 
 
-def plotCbar(self: Graph_, label=None, orientation: str = "vertical"):
+def plotCbar(self: Graph_, label: Union[str, None]=None, orientation: str = "vertical"):
     """
 
     Parameters
@@ -258,16 +272,18 @@ def plotCbar(self: Graph_, label=None, orientation: str = "vertical"):
         cbar = self.fig.fig.colorbar(mappable=self._mappable,
                                      orientation="horizontal"
                                      )
-        cbar.set_label(label, rotation=0,
-                       size=self.fig.template["label_size"]
-                       )
+        if(label is not None):
+            cbar.set_label(label, rotation=0,
+                        size=self.fig.template["label_size"]
+                        )
     else:
         cbar = self.fig.fig.colorbar(mappable=self._mappable,
                                      orientation="vertical"
                                      )
-        cbar.set_label(label, rotation=270, labelpad=30,
-                       size=self.fig.template["label_size"]
-                       )
+        if(label is not None):
+            cbar.set_label(label, rotation=270, labelpad=30,
+                           size=self.fig.template["label_size"]
+                           )
     cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
 
 
@@ -289,7 +305,9 @@ def setScale(self: Graph_, axis: str = "main", scaling: str = "same"):
         raise ValueError('"'+scaling+'" is is not a valid scaling !')
 
 
-def plotVectorField(self: Graph_, axis: str = "main", x=None, y=None,
+def plotVectorField(self: Graph_, axis: str = "main",
+                    x = None,
+                    y = None,
                     grid_span: float = 1.0, color: str = "black"
                     ):
     """Plot a vector field, perfect for fluid streams.
@@ -306,13 +324,14 @@ def plotVectorField(self: Graph_, axis: str = "main", x=None, y=None,
     """
 
     __X_Y_formatter(self, x, y)
+    
+    if(x is not None and y is not None):
+        x_vec = np.arange(0, len(x[0]), 1, dtype=float)
+        y_vec = np.arange(0, len(x), 1, dtype=float)
+        X, Y = np.meshgrid(x_vec, y_vec)
 
-    x_vec = np.arange(0, len(x[0]), 1, dtype=float)
-    y_vec = np.arange(0, len(x), 1, dtype=float)
-    X, Y = np.meshgrid(x_vec, y_vec)
+        X = X*grid_span
+        Y = Y*grid_span
 
-    X = X*grid_span
-    Y = Y*grid_span
-
-    plot_axis = __axis_formatter(self, self, axis)
-    plot_axis.streamplot(X, Y, x, y, color=color, linewidth=1, density=1)
+        plot_axis = __axis_formatter(self, axis)
+        plot_axis.streamplot(X, Y, x, y, color=color, linewidth=1, density=1)

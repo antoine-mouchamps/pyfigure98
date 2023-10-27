@@ -1,11 +1,11 @@
-from ._place_holder import Figure
+from ._place_holder import Figure_
 
 import os
 import json
 import sys
 
 
-def addCustomTemplate(self: Figure, file_path:str) -> dict:
+def addCustomTemplate(self: Figure_, file_path:str):
     """
     
     """
