@@ -1,4 +1,5 @@
 from .._place_holder import Graph_
+from typing import Union
 
 
 def setGrid(self: Graph_):
@@ -37,7 +38,7 @@ def setLegend(self: Graph_, loc: str = "best"):
                      )
 
 
-def setBorders(self: Graph_, config: str = None, left: bool = True,
+def setBorders(self: Graph_, config: Union[str, None] = None, left: bool = True,
                right: bool = True, top: bool = True, bottom: bool = True
                ):
     """Set the 4 borders of the graph.

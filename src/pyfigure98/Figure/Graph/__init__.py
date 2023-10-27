@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 
-from .._place_holder import Figure
+from .._place_holder import Figure_
+from .._place_holder import Graph_
 
 
-class Graph:
+class Graph(Graph_):
     """Class containing everything in order to create a complete graph on a
     figure.
 
@@ -35,20 +36,11 @@ class Graph:
 
     """
 
-    def __init__(self, fig: Figure,
-                 subPlot: plt.Axes) -> None:
-        self.fig = fig
-        self.plot = subPlot
-        self.plot_labels = [[], []]
+    def __init__(self, fig: Figure_,
+                 subPlot: plt.Axes
+                 ) -> None:
+        super().__init__(fig, subPlot)
 
-        self._x_axis_params: dict[str, bool]
-        self._x_axis_params = dict()
-
-        self._y_axis_params: dict[str, bool]
-        self._y_axis_params = dict()
-
-        self._is_legend_plotted = False
-        self._mappable = None
 
     from ._axes_methods import (
         setAxisX,
