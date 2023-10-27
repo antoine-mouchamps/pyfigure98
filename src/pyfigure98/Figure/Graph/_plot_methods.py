@@ -104,6 +104,7 @@ def plotStandard(self: Graph_, axis: str = "main",
 
     if(label is None):
         label = "_nolegend"
+
     plotted = False
     if(plotted is False
        and "log" in self._x_axis_params
@@ -123,7 +124,7 @@ def plotStandard(self: Graph_, axis: str = "main",
                                    )
         plotted = True
 
-    if(plotted is False):
+    else:
         line, = plot_axis.plot(x, y, color=color, linestyle=linestyle,
                                linewidth=linewidth
                                )
@@ -154,10 +155,8 @@ def plotPointsWithText(self: Graph_, axis: str = "main",
     *   ``color``: (OPTIONNAL) color of the text.
     """
 
+    xs, ys = __X_Y_formatter(self, xs, ys)
     plot_axis = __axis_formatter(self, axis)
-    if (not(len(xs) == len(ys))):
-        raise TypeError("x(" + len(xs) + ") and y(" + len(ys) + """) must have
-                        the same dimensions !"""
 
     if(xs is not None and ys is not None and texts is not None):
         for (x, y, text) in zip(xs, ys, texts):

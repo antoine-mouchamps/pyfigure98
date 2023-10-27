@@ -29,7 +29,7 @@ def addFigure(self: Figure_,
     if(template in self.templates):
         self.template = self.templates[template]
     else:
-        raise NameError("The template "+template+"does not exist.")
+        raise NameError("The template'", template, "'does not exist.")
 
     x_size = self.template["fig_size_x"]*cols
     y_size = self.template["fig_size_y"]*rows
