@@ -47,6 +47,8 @@ class Figure:
 
         self.fig: matplotlib.figure.Figure
 
+    from ._template_handling import addCustomTemplate
+
     from ._set_figure import setTitle, figSave, figShow
     from ._set_figure import addFigure, addGraph
     from ._template_handling import addCustomTemplate
