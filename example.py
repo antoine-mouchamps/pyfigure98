@@ -60,7 +60,8 @@ if __name__ == "__main__":
         labels = []
         for i in range(len(x)):
             labels.append(label)
-        log.plotPointsWithText(xs=x[0:-2], ys=y[0:-2], texts=labels[0:-2])
+        log.plotPointsWithText(xs=x[0:-2], ys=y[0:-2], texts=labels[0:-2],
+                               label="Label of points")
 
         log.plotStandard(x=x, y=y, label=r"$\log{x}$")
         log.setLegend()
