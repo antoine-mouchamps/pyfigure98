@@ -38,8 +38,11 @@ def setAxisX(self: Chart_, x_min: Union[int, float, None] = None,
                           )
     if(color[1]):
         self.plot.tick_params(axis='x', which='major', colors=color[0])
-    if(x_min is not None and x_max is not None):
-        self.plot.set_xlim(x_min, x_max)
+
+    if(x_min is not None):
+        self.plot.set_ylim(bottom=x_min)
+    if(x_max is not None):
+        self.plot.set_ylim(top=x_max)
 
 
 def setAxisXAngularScale(self: Chart_, span: float = 1.0):
@@ -119,8 +122,11 @@ def setAxisY(self: Chart_,
                           width=self.fig.template["tick_width_minor"],
                           length=self.fig.template["tick_length_minor"]
                           )
-    if(y_min is not None and y_max is not None):
-        self.plot.set_ylim(y_min, y_max)
+
+    if(y_min is not None):
+        self.plot.set_ylim(bottom=y_min)
+    if(y_max is not None):
+        self.plot.set_ylim(top=y_max)
 
 
 def setAxisYAngularScale(self: Chart_, span: float = 1.0):
