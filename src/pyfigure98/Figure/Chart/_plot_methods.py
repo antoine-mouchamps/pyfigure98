@@ -158,8 +158,10 @@ def plotPointsWithText(self: Chart_, axis: str = "main",
     xs, ys = __X_Y_formatter(self, xs, ys)
     plot_axis = __axis_formatter(self, axis)
 
-    if(xs is not None and ys is not None and texts is not None):
+    if(xs is not None and ys is not None):
         line = None
+        if(texts == None):
+            texts = ["" for a in xs]
         for (x, y, text) in zip(xs, ys, texts):
             plot_axis.text(x, y, text,
                         fontdict={
