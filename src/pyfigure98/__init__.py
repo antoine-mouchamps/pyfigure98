@@ -1,4 +1,4 @@
-"""Module for creating graphs
+"""Module for creating charts
 
 """
 

@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 
 from .._place_holder import Figure_
-from .._place_holder import Graph_
+from .._place_holder import Chart_
 
 
-class Graph(Graph_):
-    """Class containing everything in order to create a complete graph on a
+class Chart(Chart_):
+    """Class containing everything in order to create a complete chart on a
     figure.
 
     Methods:
@@ -55,7 +55,7 @@ class Graph(Graph_):
         setAxisYSecondAxis
     )
 
-    from ._graph_methods import (
+    from ._chart_methods import (
         setBorders, setGrid, setLegend, setTitle
     )
 

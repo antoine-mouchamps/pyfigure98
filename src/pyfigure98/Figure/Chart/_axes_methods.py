@@ -1,4 +1,4 @@
-from .._place_holder import Graph_
+from .._place_holder import Chart_
 from typing import Literal, Union
 
 import datetime
@@ -6,12 +6,12 @@ import matplotlib.ticker as tick
 import matplotlib.pyplot as plt
 
 
-def setAxisX(self: Graph_, x_min: Union[int, float, None] = None,
+def setAxisX(self: Chart_, x_min: Union[int, float, None] = None,
              x_max: Union[int, float, None] = None,
              label: Union[str, None] = None, color: list = ['black', False],
              loc: Literal['center', 'right', 'left']= 'center'
              ):
-    """Set the labels and the interval of the X axis of the current graph.
+    """Set the labels and the interval of the X axis of the current chart.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def setAxisX(self: Graph_, x_min: Union[int, float, None] = None,
         self.plot.set_xlim(x_min, x_max)
 
 
-def setAxisXAngularScale(self: Graph_, span: float = 1.0):
+def setAxisXAngularScale(self: Chart_, span: float = 1.0):
     """Change the x axis to a multiple of pi axis.
 
     Parameters
@@ -55,13 +55,13 @@ def setAxisXAngularScale(self: Graph_, span: float = 1.0):
     self.plot.xaxis.set_major_locator(tick.MultipleLocator(base=span))
 
 
-def setAxisXLogScale(self: Graph_):
+def setAxisXLogScale(self: Chart_):
     """Change the x axis to a base 10 logarithm scale.
     """
     self._x_axis_params["log"] = True
 
 
-def setAxisXTimeScale(self: Graph_):
+def setAxisXTimeScale(self: Chart_):
     """ Set the X axis as a time axis in hh:mm:ss.
     """
 
@@ -82,14 +82,14 @@ def setAxisXTimeScale(self: Graph_):
              )
 
 
-def setAxisY(self: Graph_,
+def setAxisY(self: Chart_,
              y_min: Union[int, float, None] = None,
              y_max: Union[int, float, None] = None,
              label: Union[str, None] = None,
              color: list = ['black', False],
              loc: Literal['bottom', 'center', 'top'] = 'center'
              ):
-    """Set the labels and the interval of the Y axis of the current graph.
+    """Set the labels and the interval of the Y axis of the current chart.
 
     Parameters
     ----------
@@ -123,7 +123,7 @@ def setAxisY(self: Graph_,
         self.plot.set_ylim(y_min, y_max)
 
 
-def setAxisYAngularScale(self: Graph_, span: float = 1.0):
+def setAxisYAngularScale(self: Chart_, span: float = 1.0):
     """Change the y axis to a multiple of pi axis.
 
     Parameters
@@ -136,13 +136,13 @@ def setAxisYAngularScale(self: Graph_, span: float = 1.0):
     self.plot.yaxis.set_major_locator(tick.MultipleLocator(base=span))
 
 
-def setAxisYLogScale(self: Graph_):
+def setAxisYLogScale(self: Chart_):
     """Change the y axis to a base 10 logarithm scale.
     """
     self._y_axis_params["log"] = True
 
 
-def setAxisYSecondAxis(self: Graph_,
+def setAxisYSecondAxis(self: Chart_,
                        y_min: Union[int, float, None] = None,
                        y_max: Union[int, float, None] = None,
                        label: Union[str, None] = None,
@@ -150,7 +150,7 @@ def setAxisYSecondAxis(self: Graph_,
                        loc: Literal['bottom', 'center', 'top'] = 'center'
                        ):
     """Create and set the labels and the interval of the second Y axis of the
-    current graph.
+    current chart.
 
     Parameters
     ----------

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import QuadMesh
 
 
-class Graph__():
+class Chart__():
     def __init__(self):
         self.plot_labels = [[], []]
 

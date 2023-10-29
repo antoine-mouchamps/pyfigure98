@@ -1,5 +1,5 @@
 from ._place_holder import Figure_
-from .Graph import Graph
+from .Chart import Chart
 import matplotlib.pyplot as plt
 # import warnings
 
@@ -38,42 +38,42 @@ def addFigure(self: Figure_,
     # warnings.warn("New figure created")
 
 
-def addGraph(self: Figure_,
+def addChart(self: Figure_,
              name: str,
              row: int = 1,
              col: int = 1,
-             index: int = 1) -> Graph:
-    """Add a graph to the current figure.
+             index: int = 1) -> Chart:
+    """Add a chart to the current figure.
 
     Parameters:
     --------
 
-    *   ``name``: name of the graph, used to recognize this specific graph
+    *   ``name``: name of the chart, used to recognize this specific chart
     *   ``row``: row number
     *   ``col``: column number
-    *   ``index``: location of the graph
+    *   ``index``: location of the chart
 
     Details:
     --------
-    Explanation: specify the location and size of the graph on the figure.
+    Explanation: specify the location and size of the chart on the figure.
     The row and col parameters determine the size of the grid, like if the
     figure was a table. Then, the index parameter specify in which block of
-    the table the added graph has to go starting from the upper left corner
+    the table the added chart has to go starting from the upper left corner
     and ending at the lower right. \n
     /!\\ the table system doesn't actually exist, it is only there to give a
-    position and a size to the added graph. It is thus possible to use
-    different size for different graphs. For example when using a 2x2 grid,
-    plotting two graphs with (2,2,1) and (2,2,2) with a third one (2,1,2) will
+    position and a size to the added chart. It is thus possible to use
+    different size for different charts. For example when using a 2x2 grid,
+    plotting two charts with (2,2,1) and (2,2,2) with a third one (2,1,2) will
     gives the following structure: \n
     _______\n
     |__|__|\n
     |_____|
     """
-    new_graph = Graph(self, self.fig.add_subplot(row, col, index))
-    self.graphs[name] = new_graph
+    new_chart = Chart(self, self.fig.add_subplot(row, col, index))
+    self.charts[name] = new_chart
 
-    # warnings.warn(f'Graph "{name}" created')
-    return self.graphs[name]
+    # warnings.warn(f'Chart "{name}" created')
+    return self.charts[name]
 
 
 def setTitle(self: Figure_, title: str) -> None:
@@ -108,3 +108,18 @@ def figShow(self: Figure_):
     """
     self.fig.tight_layout()
     plt.show()
+
+
+def addGraph(self: Figure_,
+             name: str,
+             row: int = 1,
+             col: int = 1,
+             index: int = 1) -> Chart:
+    """Add a chart to the current figure.
+
+    WARNING: THIS METHOD IS DEPRECATED !
+    --------
+    Use `addChart()` instead.
+    """
+    
+    return addChart(self, name, row, col, index)
