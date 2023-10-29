@@ -20,7 +20,7 @@ if __name__ == "__main__":
         time.setLegend("upper right")
         time.setBorders("upper-right")
 
-        angular = new_fig.addGraph("angular_view", 3, 2, 2)
+        angular = new_fig.addChart("angular_view", 3, 2, 2)
         x = np.arange(-3*np.pi, 3*np.pi, 0.01)
         x2 = np.arange(-3*np.pi, 3*np.pi, 0.01)
         y = np.sin(x)
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         angular.setBorders(top=False)
         angular.setLegend(loc="lower center")
 
-        log = new_fig.addGraph("log", 3, 1, 2)
+        log = new_fig.addChart("log", 3, 1, 2)
         x = [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000,
              2010, 2017]
         y = [68, 81, 71, 244, 151, 200, 615, 809, 824, 2633, 10787,
@@ -65,7 +65,7 @@ if __name__ == "__main__":
         log.plotStandard(x=x, y=y, label=r"$\log{x}$")
         log.setLegend()
 
-        color = new_fig.addGraph("color", 3, 2, 5)
+        color = new_fig.addChart("color", 3, 2, 5)
         x = np.zeros((10, 10))
         for i in range(len(x[0])):
             x[0][i] = (i/10)
@@ -85,16 +85,16 @@ if __name__ == "__main__":
         myNewFigure = Figure()
         myNewFigure.addFigure(template="default", rows=1, cols=1)
         
-        graphOfMyNewFigure = myNewFigure.addGraph('myGraph')
-        graphOfMyNewFigure.setAxisX(x_min=-10, x_max=10, label="x")
-        graphOfMyNewFigure.setAxisY(y_min=-5, y_max=10, label="f(x)")
+        chartOfMyNewFigure = myNewFigure.addChart('myChart')
+        chartOfMyNewFigure.setAxisX(x_min=-10, x_max=10, label="x")
+        chartOfMyNewFigure.setAxisY(y_min=-5, y_max=10, label="f(x)")
         x = np.arange(-10, 10, 0.2)
         y = (0.3*x)**3
-        graphOfMyNewFigure.plotStandard(x=x, y=y,
+        chartOfMyNewFigure.plotStandard(x=x, y=y,
                                         label="example with f(x)=(0.4*x)^3",
                                         color="red")
         myNewFigure.setTitle("My figure")
-        graphOfMyNewFigure.setTitle("my graph")
-        graphOfMyNewFigure.setLegend()
+        chartOfMyNewFigure.setTitle("my chart")
+        chartOfMyNewFigure.setLegend()
         myNewFigure.figSave('Examples/README_example')
 

@@ -1,4 +1,4 @@
-from .Graph import Graph
+from .Chart import Chart
 from ._place_holder import Figure_
 
 from ._template_handling import getAllTemplates
@@ -17,7 +17,7 @@ class Figure(Figure_):
     Add*
     ----
 
-    *   ``addGraph``
+    *   ``addChart``
     *   ``addCustomTemplate``
     *   ``addFigure``
 
@@ -41,7 +41,7 @@ class Figure(Figure_):
         figure. If you want to, create a custom template by using
         ``addCustomTemplate`` before creating the figure.
         """
-        self.graphs: dict[str, Graph] = dict()
+        self.charts: dict[str, Chart] = dict()
 
         self.templates = getAllTemplates()
 
@@ -49,5 +49,6 @@ class Figure(Figure_):
     from ._template_handling import addCustomTemplate
 
     from ._set_figure import setTitle, figSave, figShow
-    from ._set_figure import addFigure, addGraph
+    from ._set_figure import addFigure, addChart
+    from ._set_figure import addGraph # LEGACY METHOD
     from ._template_handling import addCustomTemplate

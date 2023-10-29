@@ -1,4 +1,4 @@
-from .Graph._place_holder import Graph__
+from .Chart._place_holder import Chart__
 
 import matplotlib.pyplot as plt
 import matplotlib.figure
@@ -12,7 +12,7 @@ class Figure_:
 
         self.fig: matplotlib.figure.Figure
 
-class Graph_(Graph__):
+class Chart_(Chart__):
     def __init__(self, fig: Figure_, subPlot: plt.Axes):
         super().__init__()
         

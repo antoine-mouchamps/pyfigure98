@@ -11,8 +11,8 @@ src/pyfigure98/Figure/__init__.py
 src/pyfigure98/Figure/_place_holder.py
 src/pyfigure98/Figure/_set_figure.py
 src/pyfigure98/Figure/_template_handling.py
-src/pyfigure98/Figure/Graph/__init__.py
-src/pyfigure98/Figure/Graph/_axes_methods.py
-src/pyfigure98/Figure/Graph/_graph_methods.py
-src/pyfigure98/Figure/Graph/_plot_methods.py
+src/pyfigure98/Figure/Chart/__init__.py
+src/pyfigure98/Figure/Chart/_axes_methods.py
+src/pyfigure98/Figure/Chart/_chart_methods.py
+src/pyfigure98/Figure/Chart/_plot_methods.py
 src/pyfigure98/Figure/Templates/default.txt

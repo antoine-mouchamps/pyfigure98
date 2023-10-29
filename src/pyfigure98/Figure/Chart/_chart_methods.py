@@ -1,20 +1,20 @@
-from .._place_holder import Graph_
+from .._place_holder import Chart_
 from typing import Union
 
 
-def setGrid(self: Graph_):
-    """Add grid lines to the graph
+def setGrid(self: Chart_):
+    """Add grid lines to the chart
     """
     self.plot.grid()
 
 
-def setTitle(self: Graph_, label: str):
-    """Set the title of the current graph.
+def setTitle(self: Chart_, label: str):
+    """Set the title of the current chart.
 
     Parameters
     ----------
 
-    *   ``label``: title of the graph
+    *   ``label``: title of the chart
 
     """
     self.plot.set_title(label,
@@ -22,8 +22,8 @@ def setTitle(self: Graph_, label: str):
                         )
 
 
-def setLegend(self: Graph_, loc: str = "best"):
-    """Set the legend of the current graph.
+def setLegend(self: Chart_, loc: str = "best"):
+    """Set the legend of the current chart.
 
     Parameters
     ----------
@@ -38,10 +38,10 @@ def setLegend(self: Graph_, loc: str = "best"):
                      )
 
 
-def setBorders(self: Graph_, config: Union[str, None] = None, left: bool = True,
+def setBorders(self: Chart_, config: Union[str, None] = None, left: bool = True,
                right: bool = True, top: bool = True, bottom: bool = True
                ):
-    """Set the 4 borders of the graph.
+    """Set the 4 borders of the chart.
     Set ``config`` to "upper-right" to disable the right and upper border.
 
     Parameters

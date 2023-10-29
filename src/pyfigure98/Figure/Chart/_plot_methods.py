@@ -1,5 +1,5 @@
 from typing import Iterable, Literal
-from .._place_holder import Graph_
+from .._place_holder import Chart_
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ import warnings
 from typing import Union
 
 
-def __X_Y_formatter(self: Graph_, x, y):
+def __X_Y_formatter(self: Chart_, x, y):
     if (not(len(x) == len(y))):
         raise TypeError("x and y must have the same dimensions !")
 
@@ -31,7 +31,7 @@ def __X_Y_formatter(self: Graph_, x, y):
     return x, y
 
 
-def __axis_formatter(self: Graph_, axis) -> plt.Axes:
+def __axis_formatter(self: Chart_, axis) -> plt.Axes:
     if(not(axis == "main" or axis == "sec")):
         raise SyntaxError("The specified axis does not exist !")
 
@@ -47,14 +47,14 @@ def __axis_formatter(self: Graph_, axis) -> plt.Axes:
     return plot_axis
 
 
-def plotStandard(self: Graph_, axis: str = "main",
+def plotStandard(self: Chart_, axis: str = "main",
                  x = None,
                  y = None,
                  label: Union[str, None] = None,
                  color='blue',
                  linestyle='solid', linewidth=1
                  ):
-    """Plot datas with a standard "line" graph.
+    """Plot datas with a standard "line" chart.
 
     Parameters
     ----------
@@ -130,12 +130,11 @@ def plotStandard(self: Graph_, axis: str = "main",
                                )
         plotted = True
 
-    if(label is not None):
-        self.plot_labels[0].append(line)
-        self.plot_labels[1].append(label)
+    self.plot_labels[0].append(line)
+    self.plot_labels[1].append(label)
 
 
-def plotPointsWithText(self: Graph_, axis: str = "main",
+def plotPointsWithText(self: Chart_, axis: str = "main",
                        xs = None,
                        ys = None,
                        texts = None, marker: str = 'o',
@@ -168,16 +167,16 @@ def plotPointsWithText(self: Graph_, axis: str = "main",
                         )
             plot_axis.plot(x, y, marker=marker,
                         markersize=self.fig.template["markersize"],
-                        color=markercolor, label='_nolegend_'
+                        color=markercolor
                         )
 
 
-def plotText(self: Graph_, axis: str = "main",
+def plotText(self: Chart_, axis: str = "main",
              x = None,
              y = None,
              text = None, color: str = "black"
              ):
-    """Plot text on the graph.
+    """Plot text on the chart.
 
     Parameters
     ----------
@@ -201,11 +200,11 @@ def plotText(self: Graph_, axis: str = "main",
                     )
 
 
-def plotPcolor(self: Graph_, axis: str = "main", grid_span: float = 1.0,
+def plotPcolor(self: Chart_, axis: str = "main", grid_span: float = 1.0,
                C=None, vmin=None, vmax=None, cmap: str = 'inferno',
                shading: Literal['flat', 'nearest', 'gouraud', 'auto'] = 'flat'
                ):
-    """Plot a graph where the colour indicates the greatness of the value on a
+    """Plot a chart where the colour indicates the greatness of the value on a
         2D grid. Not easy to describe okay ??
 
     Parameters
@@ -257,7 +256,7 @@ def plotPcolor(self: Graph_, axis: str = "main", grid_span: float = 1.0,
                                             )
 
 
-def plotCbar(self: Graph_, label: Union[str, None]=None, orientation: str = "vertical"):
+def plotCbar(self: Chart_, label: Union[str, None]=None, orientation: str = "vertical"):
     """
 
     Parameters
@@ -286,7 +285,7 @@ def plotCbar(self: Graph_, label: Union[str, None]=None, orientation: str = "ver
     cbar.ax.tick_params(labelsize=self.fig.template["tick_size"])
 
 
-def setScale(self: Graph_, axis: str = "main", scaling: str = "same"):
+def setScale(self: Chart_, axis: str = "main", scaling: str = "same"):
     """Set the scale of the x and y axes.
 
     Parameters
@@ -304,7 +303,7 @@ def setScale(self: Graph_, axis: str = "main", scaling: str = "same"):
         raise ValueError('"'+scaling+'" is is not a valid scaling !')
 
 
-def plotVectorField(self: Graph_, axis: str = "main",
+def plotVectorField(self: Chart_, axis: str = "main",
                     x = None,
                     y = None,
                     grid_span: float = 1.0, color: str = "black"
