@@ -138,7 +138,8 @@ def plotPointsWithText(self: Chart_, axis: str = "main",
                        xs = None,
                        ys = None,
                        texts = None, marker: str = 'o',
-                       markercolor: str = "green", color: str = "black"
+                       markercolor: str = "green", color: str = "black",
+                       label = None
                        ):
     """Plot a point with some text attached to it.
 
@@ -158,6 +159,7 @@ def plotPointsWithText(self: Chart_, axis: str = "main",
     plot_axis = __axis_formatter(self, axis)
 
     if(xs is not None and ys is not None and texts is not None):
+        line = None
         for (x, y, text) in zip(xs, ys, texts):
             plot_axis.text(x, y, text,
                         fontdict={
@@ -165,10 +167,16 @@ def plotPointsWithText(self: Chart_, axis: str = "main",
                             },
                         color=color
                         )
-            plot_axis.plot(x, y, marker=marker,
+            line_i, = plot_axis.plot(x, y, marker=marker,
                         markersize=self.fig.template["markersize"],
-                        color=markercolor
+                        color=markercolor, label='_nolegend_'
                         )
+            if(line is None):
+                line = line_i
+        if(label is None):
+            label = "_nolegend"
+        self.plot_labels[0].append(line)
+        self.plot_labels[1].append(label)
 
 
 def plotText(self: Chart_, axis: str = "main",
