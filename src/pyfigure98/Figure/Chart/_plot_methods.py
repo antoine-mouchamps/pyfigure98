@@ -17,10 +17,10 @@ def __X_Y_formatter(self: Chart_, x, y):
         raise SyntaxError("the Y axis cannot have more than one formatter !")
 
     if("angular" in self._x_axis_params):
-        x /= np.pi
+        x = [el/np.pi for el in x]
 
     if("angular" in self._y_axis_params):
-        y /= np.pi
+        y = [el/np.pi for el in y]
 
     if("log" in self._x_axis_params and "log" in self._y_axis_params):
         warnings.warn("""\n \t!!! WARNING: This case in not taken into account,
